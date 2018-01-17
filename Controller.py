@@ -86,6 +86,26 @@ def main():
         http_post.POST({'data': {'username': user, 'password': str(pas)}}, ip, p, user, pas, ch).login()
         response = http_post.POST(0,ip, p, user, pas, ch).GetUptime()
         print(response)
+
+    if m == 'model':
+        http_post.POST({'data': {'username': user, 'password': str(pas)}}, ip, p, user, pas, ch).login()
+        response = http_post.POST(0,ip, p, user, pas, ch).GetModel()
+        print(response)
+
+    if m == 'alias':
+        http_post.POST({'data': {'username': user, 'password': str(pas)}}, ip, p, user, pas, ch).login()
+        response = http_post.POST(0,ip, p, user, pas, ch).GetAlias()
+        print(response)
+
+    if m == 'hasupdate':
+        http_post.POST({'data': {'username': user, 'password': str(pas)}}, ip, p, user, pas, ch).login()
+        response = http_post.POST(0,ip, p, user, pas, ch).GetHasUpdate()
+        print(response)
+
+    if m == 'opmode':
+        http_post.POST({'data': {'username': user, 'password': str(pas)}}, ip, p, user, pas, ch).login()
+        response = http_post.POST(0,ip, p, user, pas, ch).GetOpMode()
+        print(response)
 main()
 
 
