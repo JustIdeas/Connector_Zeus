@@ -1,21 +1,26 @@
 
+
+
 class URLs:
 
-    def __init__(self, version='', info=''):
+    def __init__(self, version='', info='', ip='', port=''):
         self.version = version
         self.info = info
-
+        self.ip = ip
+        self.port = port
 
     def Check_version(self):
 
-        if self.version == 'v3':
-            URLs().URLs_v3(self.info)
-        elif self.version == 'v1':
-            URLs().URLs_v1(self.info)
+        if self.version == str("v1"):
+            return URLs().URLs_v1(self.info, self.ip, self.port)
+        elif self.version == str("v3"):
+            return URLs().URLs_v3(self.info, self.ip, self.port)
 
-    def URLs_v1(self ,info=''):
-
+    def URLs_v1(self ,info='', ip='', port=''):
         self.info = info
+        self.ip = ip
+        self.port = port
+
         URL = {
 
             'login': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/system/login',
@@ -30,8 +35,10 @@ class URLs:
         }
         return URL[self.info]
 
-    def URLs_v3(self, info=''):
+    def URLs_v3(self, info='', ip='', port=''):
         self.info = info
+        self.ip = ip
+        self.port = port
         URL = {
 
             'login': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/system/login',

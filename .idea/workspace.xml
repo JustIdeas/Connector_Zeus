@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="04db121e-30d4-4658-b03f-452f7713bf93" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/common/url_constructor.py" />
       <change beforePath="$PROJECT_DIR$/.idea/Connector_Zeus.iml" afterPath="$PROJECT_DIR$/.idea/Connector_Zeus.iml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/Controller.py" afterPath="$PROJECT_DIR$/Controller.py" />
       <change beforePath="$PROJECT_DIR$/common/http_post.py" afterPath="$PROJECT_DIR$/common/http_post.py" />
+      <change beforePath="$PROJECT_DIR$/common/url_constructor.py" afterPath="$PROJECT_DIR$/common/url_constructor.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,9 +23,11 @@
       <file leaf-file-name="http_post.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/common/http_post.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="12" lean-forward="true" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="12" />
-              <folding />
+            <state relative-caret-position="323">
+              <caret line="19" column="52" lean-forward="true" selection-start-line="19" selection-start-column="52" selection-end-line="19" selection-end-column="52" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -33,8 +35,8 @@
       <file leaf-file-name="url_constructor.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/common/url_constructor.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="13" lean-forward="true" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+            <state relative-caret-position="153">
+              <caret line="9" column="24" lean-forward="false" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -43,8 +45,8 @@
       <file leaf-file-name="Controller.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Controller.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="816">
-              <caret line="48" column="95" lean-forward="false" selection-start-line="48" selection-start-column="95" selection-end-line="48" selection-end-column="95" />
+            <state relative-caret-position="1309">
+              <caret line="92" column="0" lean-forward="true" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -67,11 +69,16 @@
       <find>response = http_post.POST()</find>
       <find>return average</find>
       <find>elf.version,</find>
+      <find>').Check_version(</find>
+      <find>ch)</find>
     </findStrings>
     <replaceStrings>
       <replace>http_post.POST({'data': {'username': user, 'password': str(pas)}}, ip, p, user, pas, ch).login()</replace>
       <replace>response = http_post.POST(0,ip, p, user, pas, ch)</replace>
       <replace>return round(average,2)</replace>
+      <replace>', self.ip).Check_version(</replace>
+      <replace>', self.ip, self.port).Check_version(</replace>
+      <replace>ch, ver)</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -89,9 +96,9 @@
         <option value="$PROJECT_DIR$/http_post.py" />
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/Test.py" />
-        <option value="$PROJECT_DIR$/common/url_constructor.py" />
         <option value="$PROJECT_DIR$/Controller.py" />
         <option value="$PROJECT_DIR$/common/http_post.py" />
+        <option value="$PROJECT_DIR$/common/url_constructor.py" />
       </list>
     </option>
   </component>
@@ -328,7 +335,14 @@
       <option name="project" value="LOCAL" />
       <updated>1516163266422</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Add Args version to know witch API are in use.&#10;&#10;Created a new package to control all URLS for the differents APIs.">
+      <created>1516244545239</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1516244545239</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -360,7 +374,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Firts version with API V1 integrated.&#10;&#10;Has functions to:&#10;&#10;Collect Uptime;&#10;Collect Channel;&#10;Collect average noise by channel;&#10;Collect average noise of all channels;&#10;Collect average noise of channel in use;&#10;Collect Firmware version;&#10;Collect number of clients connected." />
     <MESSAGE value="New get functions added:&#10;&#10;Collect operation model of the device;&#10;Collect if there is a new firmware available;&#10;Collect Alias of the device;&#10;Collect model of the device." />
-    <option name="LAST_COMMIT_MESSAGE" value="New get functions added:&#10;&#10;Collect operation model of the device;&#10;Collect if there is a new firmware available;&#10;Collect Alias of the device;&#10;Collect model of the device." />
+    <MESSAGE value="Add Args version to know witch API are in use.&#10;&#10;Created a new package to control all URLS for the differents APIs." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add Args version to know witch API are in use.&#10;&#10;Created a new package to control all URLS for the differents APIs." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
@@ -371,7 +386,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -389,7 +406,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
           <caret line="11" column="1" lean-forward="false" selection-start-line="11" selection-start-column="1" selection-end-line="11" selection-end-column="1" />
-          <folding />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -407,7 +426,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -423,29 +444,31 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Login/__init__.py" />
     <entry file="file://$PROJECT_DIR$/Test.py" />
+    <entry file="file://$PROJECT_DIR$/common/url_constructor.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="24" lean-forward="false" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/Controller.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="816">
-          <caret line="48" column="95" lean-forward="false" selection-start-line="48" selection-start-column="95" selection-end-line="48" selection-end-column="95" />
+        <state relative-caret-position="1309">
+          <caret line="92" column="0" lean-forward="true" selection-start-line="92" selection-start-column="0" selection-end-line="92" selection-end-column="0" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/common/url_constructor.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="13" lean-forward="true" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/common/http_post.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="12" lean-forward="true" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="12" />
-          <folding />
+        <state relative-caret-position="323">
+          <caret line="19" column="52" lean-forward="true" selection-start-line="19" selection-start-column="52" selection-end-line="19" selection-end-column="52" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
