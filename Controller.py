@@ -27,18 +27,22 @@ def check_arg(args=None):
     parser.add_argument('-ch', '--channel',
                         help='login password',
                         default='something')
+    parser.add_argument('-ver', '--version',
+                        help='API Version',
+                        default='v1')
     results = parser.parse_args(args)
     return (results.mode,
             results.ip,
             results.port,
             results.username,
             results.password,
-            results.channel
+            results.channel,
+            results.version
             )
 
 
 def main():
-    m, ip, p, user, pas, ch  = check_arg(sys.argv[1:])
+    m, ip, p, user, pas, ch, ver  = check_arg(sys.argv[1:])
 
     #print('mode:', m,'ip:', ip, 'port:', p, 'username:', user, 'password:', pas, 'channel:', ch)
     if m == 'clients':

@@ -1,17 +1,19 @@
 import requests
 import json
 import datetime
+from url_constructor import URLs
 
 headers = {}
 class POST:
     def __init__(self, params='', ip='', port='',
-                 user='', passw='', channel=''):
+                 user='', passw='', channel='', version=''):
         self.params = params
         self.ip = ip
         self.user = user
         self.passw = passw
         self.channel = channel
         self.port = port
+        self.version = version
 
 
 
@@ -31,28 +33,12 @@ class POST:
             'WanInfo': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/interface/wan'
 
         }
+        return URL[self.info]
 
-        if self.info == "login":
-            return URL['login']
-        if self.info == "clients":
-            return URL['clients']
-        if self.info == "version":
-            return URL['version']
-        if self.info == "noise":
-            return URL['noise']
-        if self.info == "statusWireless":
-            return URL['statusWireless']
-        if self.info == "statusSystem":
-            return URL['statusSystem']
-        if self.info == "HasUpdate":
-            return URL['HasUpdate']
-        if self.info == "WanInfo":
-            return URL['WanInfo']
 
-        return URL
     def login(self):
         payload = self.params
-        post = requests.post(POST.URLs(self, 'login'), data=json.dumps(payload), verify=False, headers=headers)
+        post = requests.post(URLs(self.version, 'login').Check_version(), data=json.dumps(payload), verify=False, headers=headers)
 
         if post.status_code == 200:
             token = json.loads(post.content.decode('utf-8'))['data']['Token']
@@ -62,18 +48,18 @@ class POST:
 
     def GetClients(self):
 
-        post = requests.get(str(POST.URLs(self, 'clients')),verify=False, headers=headers)
+        post = requests.get(str(URLs(self.version, 'clients').Check_version()),verify=False, headers=headers)
         response = json.loads(post.content.decode('utf-8'))
         return response
 
     def GetVersion(self):
 
-        post = requests.get(str(POST.URLs(self, 'version')), verify=False, headers=headers)
+        post = requests.get(str(URLs(self.version, 'version').Check_version()), verify=False, headers=headers)
         response = json.loads(post.content.decode('utf-8'))
         return response
 
     def GetNoise(self):
-        post = requests.get(str(POST.URLs(self, 'noise')), verify=False, headers=headers)
+        post = requests.get(str(URLs(self.version, 'noise').Check_version()), verify=False, headers=headers)
         response = json.loads(post.content.decode('utf-8'))
         size = len(response["data"])
         sum=0
@@ -85,19 +71,19 @@ class POST:
         return round(average,2)
 
     def GetNoise_channelCount(self):
-        post = requests.get(str(POST.URLs(self, 'noise')), verify=False, headers=headers)
+        post = requests.get(str(URLs(self.version, 'noise').Check_version()), verify=False, headers=headers)
         response = json.loads(post.content.decode('utf-8'))
         size = len(response["data"])
         return size
 
     def Getchannel(self):
-        post = requests.get(str(POST.URLs(self, 'statusWireless')), verify=False, headers=headers)
+        post = requests.get(str(URLs(self.version, 'statusWireless').Check_version()), verify=False, headers=headers)
         response = json.loads(post.content.decode('utf-8'))
         return int(response['data']['channel'])
 
     def GetNoise_ownChannel(self):
         Own_Channel = POST.Getchannel(self)
-        post = requests.get(str(POST.URLs(self, 'noise')), verify=False, headers=headers)
+        post = requests.get(str(URLs(self.version, 'noise').Check_version()), verify=False, headers=headers)
         response = json.loads(post.content.decode('utf-8'))
         size = len(response["data"])
         sum = 0
@@ -116,7 +102,7 @@ class POST:
 
 
     def GetNoise_byChannel(self):
-        post = requests.get(str(POST.URLs(self, 'noise')), verify=False, headers=headers)
+        post = requests.get(str(URLs(self.version, 'noise').Check_version()), verify=False, headers=headers)
         response = json.loads(post.content.decode('utf-8'))
         size = len(response["data"])
         sum = 0
@@ -135,25 +121,25 @@ class POST:
 
 
     def GetUptime(self):
-            post = requests.get(str(POST.URLs(self, 'statusSystem')), verify=False, headers=headers)
+            post = requests.get(str(URLs(self.version, 'statusSystem').Check_version()), verify=False, headers=headers)
             response = json.loads(post.content.decode('utf-8'))
             time = str(datetime.timedelta(seconds=(response["data"]["uptime"])))
             return time
 
     def GetModel(self):
-            post = requests.get(str(POST.URLs(self, 'statusSystem')), verify=False, headers=headers)
+            post = requests.get(str(URLs(self.version, 'statusSystem').Check_version()), verify=False, headers=headers)
             response = json.loads(post.content.decode('utf-8'))
             model = str(response["data"]["model"])
             return model
 
     def GetAlias(self):
-            post = requests.get(str(POST.URLs(self, 'statusSystem')), verify=False, headers=headers)
+            post = requests.get(str(URLs(self.version, 'statusSystem').Check_version()), verify=False, headers=headers)
             response = json.loads(post.content.decode('utf-8'))
             Alias = str(response["data"]["alias"])
             return Alias
 
     def GetHasUpdate(self):
-            post = requests.get(str(POST.URLs(self, 'HasUpdate')), verify=False, headers=headers)
+            post = requests.get(str(URLs(self.version, 'HasUpdate').Check_version()), verify=False, headers=headers)
             response = json.loads(post.content.decode('utf-8'))
             Alias = bool(response["data"]["has_update"])
             #print(Alias)
@@ -164,7 +150,7 @@ class POST:
             return Alias
 
     def GetOpMode(self):
-            post = requests.get(str(POST.URLs(self, 'WanInfo')), verify=False, headers=headers)
+            post = requests.get(str(URLs(self.version, 'WanInfo').Check_version()), verify=False, headers=headers)
             response = json.loads(post.content.decode('utf-8'))
             Alias = str(response["data"]["opmode"])
             if Alias == "router":
