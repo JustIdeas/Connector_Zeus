@@ -42,7 +42,7 @@ class URLs:
         URL = {
 
             'login': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/system/login',
-            'clients': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wireless/1/clients',
+            'clients': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/system/status',
             'version': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/system/device',
             'noise': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wireless/1/survey',
             'statusWireless': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wireless/1/status',
