@@ -2,7 +2,9 @@ import urllib3
 import sys
 import argparse
 
-from common import http_post
+
+from common import decide_func
+
 
 urllib3.disable_warnings()
 
@@ -27,85 +29,32 @@ def check_arg(args=None):
     parser.add_argument('-ch', '--channel',
                         help='login password',
                         default='something')
+    parser.add_argument('-ver', '--version',
+                        help='API Version',
+                        default='v1')
+    parser.add_argument('-int', '--interface',
+                        help='Interface 2Ghz or 5Ghz, if 5Ghz, use bouth interfaces',
+                        default='2Ghz')
     results = parser.parse_args(args)
     return (results.mode,
             results.ip,
             results.port,
             results.username,
             results.password,
-            results.channel
+            results.channel,
+            results.version,
+            results.interface
             )
 
 
 def main():
-    m, ip, p, user, pas, ch  = check_arg(sys.argv[1:])
+    m, ip, p, user, pas, ch, ver, int  = check_arg(sys.argv[1:])
 
-    #print('mode:', m,'ip:', ip, 'port:', p, 'username:', user, 'password:', pas, 'channel:', ch)
-    if m == 'clients':
-        http_post.POST({'data': {'username': user, 'password': str(pas)}}, ip, p, user, pas, ch).login()
-        response = http_post.POST(0,ip, p, user, pas, ch).GetClients()
-        if response['data']['clients'] == []:
-            print(0)
-        else:
-            print(len(response['data']['clients']))
 
-    if m == 'version':
-        http_post.POST({'data': {'username': user, 'password': str(pas)}}, ip, p, user, pas, ch).login()
-        response = http_post.POST(0,ip, p, user, pas, ch).GetVersion()
-        if response["data"]["version"] == []:
-            print(0)
-        else:
-            print(response["data"]["version"])
+    decide_func.Decide(m, ip, p, user, pas, ch, ver, int).check()
 
-    if m == 'noise':
-        http_post.POST({'data': {'username': user, 'password': str(pas)}}, ip, p, user, pas, ch).login()
-        response = http_post.POST(0,ip, p, user, pas, ch).GetNoise()
-        print(response)
+    #print('mode:', m,'ip:', ip, 'port:', p, 'username:', user, 'password:', pas, 'channel:', ch, ver, int)
 
-    if m == 'surveycount':
-        http_post.POST({'data': {'username': user, 'password': str(pas)}}, ip, p, user, pas, ch).login()
-        response = http_post.POST(0,ip, p, user, pas, ch).GetNoise_channelCount()
-        print(response)
-
-    if m == 'noise_channel':
-        http_post.POST({'data': {'username': user, 'password': str(pas)}}, ip, p, user, pas, ch).login()
-        response = http_post.POST(0,ip, p, user, pas, ch).GetNoise_byChannel()
-        print(response)
-
-    if m == 'noise_ownchannel':
-        http_post.POST({'data': {'username': user, 'password': str(pas)}}, ip, p, user, pas, ch).login()
-        response = http_post.POST(0,ip, p, user, pas, ch).GetNoise_ownChannel()
-        print(response)
-
-    if m == 'channel':
-        http_post.POST({'data': {'username': user, 'password': str(pas)}}, ip, p, user, pas, ch).login()
-        response = http_post.POST(0,ip, p, user, pas, ch).Getchannel()
-        print(response)
-
-    if m == 'uptime':
-        http_post.POST({'data': {'username': user, 'password': str(pas)}}, ip, p, user, pas, ch).login()
-        response = http_post.POST(0,ip, p, user, pas, ch).GetUptime()
-        print(response)
-
-    if m == 'model':
-        http_post.POST({'data': {'username': user, 'password': str(pas)}}, ip, p, user, pas, ch).login()
-        response = http_post.POST(0,ip, p, user, pas, ch).GetModel()
-        print(response)
-
-    if m == 'alias':
-        http_post.POST({'data': {'username': user, 'password': str(pas)}}, ip, p, user, pas, ch).login()
-        response = http_post.POST(0,ip, p, user, pas, ch).GetAlias()
-        print(response)
-
-    if m == 'hasupdate':
-        http_post.POST({'data': {'username': user, 'password': str(pas)}}, ip, p, user, pas, ch).login()
-        response = http_post.POST(0,ip, p, user, pas, ch).GetHasUpdate()
-        print(response)
-
-    if m == 'opmode':
-        http_post.POST({'data': {'username': user, 'password': str(pas)}}, ip, p, user, pas, ch).login()
-        response = http_post.POST(0,ip, p, user, pas, ch).GetOpMode()
-        print(response)
 main()
 
 
