@@ -2,9 +2,9 @@ import urllib3
 import sys
 import argparse
 
-from common import http_post
-from common import only_2ghz
-from common import _2ghz_5ghz
+
+from common import decide_func
+
 
 urllib3.disable_warnings()
 
@@ -50,9 +50,8 @@ def check_arg(args=None):
 def main():
     m, ip, p, user, pas, ch, ver, int  = check_arg(sys.argv[1:])
 
-    if int == '2Ghz':
-        print('entrou 2Ghz')
-        only_2ghz._2Ghz(m, ip, p, user, pas, ch, ver).check()
+
+    decide_func.Decide(m, ip, p, user, pas, ch, ver, int).check()
 
     #print('mode:', m,'ip:', ip, 'port:', p, 'username:', user, 'password:', pas, 'channel:', ch, ver, int)
 
