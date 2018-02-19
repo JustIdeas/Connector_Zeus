@@ -2,7 +2,7 @@ from common import get_func
 
 class Decide:
     
-    def __init__(self,  mode='', ip='', port='', user='', pas='', channel='', version='', interface=''):
+    def __init__(self,  mode='', ip='', port='', user='', pas='', channel='', version='', interface='', sock='9090'):
         self.mode = mode
         self.ip = ip
         self.port = port
@@ -11,6 +11,7 @@ class Decide:
         self.channel = channel
         self.version = version
         self.interface = interface
+        self.socket = sock
 
     def check(self):
         
@@ -100,4 +101,9 @@ class Decide:
                           self.pas, self.channel, self.version, self.interface).login()
             response = get_func.POST(0, self.ip, self.port, self.user, self.pas, self.channel, self.version,
                                      self.interface).GetThroughputWlan0_Download()
+            print(response)
+
+        if self.mode == 'socket':
+            response = get_func.POST(0, self.ip, self.port, self.user, self.pas, self.channel, self.version,
+                                     self.interface, self.socket).SocketTest()
             print(response)

@@ -35,6 +35,9 @@ def check_arg(args=None):
     parser.add_argument('-int', '--interface',
                         help='Interface 2Ghz or 5Ghz, if 5Ghz, use bouth interfaces',
                         default='2Ghz')
+    parser.add_argument('-soc', '--socket',
+                        help='socket test port',
+                        default='socket')
     results = parser.parse_args(args)
     return (results.mode,
             results.ip,
@@ -43,15 +46,16 @@ def check_arg(args=None):
             results.password,
             results.channel,
             results.version,
-            results.interface
+            results.interface,
+            results.socket
             )
 
 
 def main():
-    m, ip, p, user, pas, ch, ver, int  = check_arg(sys.argv[1:])
+    m, ip, p, user, pas, ch, ver, int, soc = check_arg(sys.argv[1:])
 
 
-    decide_func.Decide(m, ip, p, user, pas, ch, ver, int).check()
+    decide_func.Decide(m, ip, p, user, pas, ch, ver, int, soc).check()
 
     #print('mode:', m,'ip:', ip, 'port:', p, 'username:', user, 'password:', pas, 'channel:', ch, ver, int)
 
