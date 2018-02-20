@@ -29,7 +29,7 @@ To use the Connector_Zeus, is simple, you just need to pass some parameters to f
 
 **Get Firmware Version:** Connector_Zeus.py -m version -ip {HOST.CONN} -p {$HTTPS_PORT} -user {$LOGIN_USER} -pas {$LOGIN_PASS};
 
-**Get Device Uptim:** Connector_Zeus.py -m uptime -ip {HOST.CONN} -p {$HTTPS_PORT} -user {$LOGIN_USER} -pas {$LOGIN_PASS};
+**Get Device Uptime:** Connector_Zeus.py -m uptime -ip {HOST.CONN} -p {$HTTPS_PORT} -user {$LOGIN_USER} -pas {$LOGIN_PASS};
 
 **Socket to the device:** Connector_Zeus.py -m socket -ip {HOST.CONN} -soc {$HTTPS_PORT};
 
