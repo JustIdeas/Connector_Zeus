@@ -1,12 +1,14 @@
 import requests
 import json
 import datetime
+import socket
+import sys
 
 from common import url_constructor
 headers = {}
 class POST:
     def __init__(self, params='', ip='', port='',
-                 user='', passw='', channel='', version='', interface=''):
+                 user='', passw='', channel='', version='', interface='', sock='9090'):
         self.params = params
         self.ip = ip
         self.user = user
@@ -15,6 +17,7 @@ class POST:
         self.port = port
         self.version = version
         self.interface = interface
+        self.socket = sock
 
     def login(self):
         payload = self.params
@@ -323,19 +326,21 @@ class POST:
             model = str(response["data"]["device"]["model"])
             return model
 
+        def GetAlias(self):
+            if self.version == 'v1':
+                post = requests.get(
+                    str(url_constructor.URLs(self.version, 'statusSystem', self.ip, self.port).Check_version()),
+                    verify=False, headers=headers)
+                response = json.loads(post.content.decode('utf-8'))
+                Alias = str(response["data"]["alias"])
+                return Alias
+            if self.version == 'v3':
+                post = requests.get(
+                    str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
+                    verify=False, headers=headers)
+                response = json.loads(post.content.decode('utf-8'))
+                Alias = str(response["data"]["device"]["alias"])
 
-    def GetAlias(self):
-        if self.version == 'v1':
-            post = requests.get(str(url_constructor.URLs(self.version, 'statusSystem', self.ip, self.port).Check_version()), verify=False, headers=headers)
-            response = json.loads(post.content.decode('utf-8'))
-            Alias = str(response["data"]["alias"])
-            return Alias
-        if self.version == 'v3':
-            post = requests.get(
-                str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
-                verify=False, headers=headers)
-            response = json.loads(post.content.decode('utf-8'))
-            Alias = str(response["data"]["device"]["alias"])
             return Alias
 
     def GetHasUpdate(self):
@@ -382,7 +387,7 @@ class POST:
             post = requests.get(str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
                                 verify=False, headers=headers)
             response = json.loads(post.content.decode('utf-8'))
-            Alias = str(response["data"]["device"]["network_mode"])
+            Alias = str(response["data"]["wan"]["ipv4"]["opmode"])
             if Alias == "router":
                 Alias = "Roteador"
                 return Alias
@@ -455,6 +460,21 @@ class POST:
             else:
                 result = round(result/size/1000/1000,3)
                 return result
+
+    def SocketTest(self):
+
+        try:
+            init = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            init.settimeout(5)
+            init.connect((self.ip, int(self.socket)))
+            # init.timeout(3)
+            init.shutdown(2)
+            return 1
+
+        except socket.error as e:
+            return 0
+            #print("Something went wrong inside of Socket_test module:", sys.exc_info()[0], sys.exc_info()[1])
+
 
 
 
