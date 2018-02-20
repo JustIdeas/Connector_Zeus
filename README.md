@@ -31,6 +31,9 @@ To use the Connector_Zeus, is simple, you just need to pass some parameters to f
 
 **Get Device Uptim:** Connector_Zeus.py -m uptime -ip {HOST.CONN} -p {$HTTPS_PORT} -user {$LOGIN_USER} -pas {$LOGIN_PASS};
 
+**Socket to the device:** Connector_Zeus.py -m socket -ip {HOST.CONN} -soc {$HTTPS_PORT};
+
+
 There is a important information tha you need to understand to be able to use this code on both API's Versions. To be able to use this project with API v3 devices, YOU NEED to pass as argument the version number, and that I will show you later, and other dargument with the interface that you whant to collect, like 5Ghz interface or 2Ghz.
 
 By default, the version argument is already 2Ghz and and API V1.
