@@ -1,14 +1,13 @@
 import requests
 import json
 import datetime
-import socket
-import sys
 
+from common import Getvendor
 from common import url_constructor
 headers = {}
 class POST:
     def __init__(self, params='', ip='', port='',
-                 user='', passw='', channel='', version='', interface='', sock='9090'):
+                 user='', passw='', channel='', version='', interface=''):
         self.params = params
         self.ip = ip
         self.user = user
@@ -17,7 +16,6 @@ class POST:
         self.port = port
         self.version = version
         self.interface = interface
-        self.socket = sock
 
     def login(self):
         payload = self.params
@@ -28,6 +26,39 @@ class POST:
             headers['Authorization'] = 'Bauer ' + token
 
         return True
+
+    def GetClientsMac(self):
+
+        post = requests.get(str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()), verify=False, headers=headers)
+        response = json.loads(post.content.decode('utf-8'))
+        vendorinfo = []
+        if self.version == 'v1':
+            if response['data']['clients'] == []:
+                return(0)
+            else:
+                clients_count = (len(response['data']['clients']))
+                for i in range(clients_count):
+
+                   if response['data']['clients'][i]['interface'] == 'wireless':
+
+                       Macs = response['data']['clients'][i]['mac_address']
+                       vendorinfo.append(Getvendor.Vendor(Macs).run())
+
+
+                return vendorinfo
+
+        elif self.version == 'v3' and self.interface == '2Ghz':
+            if response['data']['wireless']['radios'][0]['connected_clients'] == 0:
+                return 0
+            else:
+                return response['data']['wireless']['radios'][0]['connected_clients']
+        elif self.version == 'v3' and self.interface == '5Ghz':
+            if response['data']['wireless']['radios'][1]['connected_clients'] == 0:
+                return(0)
+            else:
+                return(response['data']['wireless']['radios'][1]['connected_clients'])
+
+
 
     def GetClients(self):
 
@@ -326,21 +357,19 @@ class POST:
             model = str(response["data"]["device"]["model"])
             return model
 
-        def GetAlias(self):
-            if self.version == 'v1':
-                post = requests.get(
-                    str(url_constructor.URLs(self.version, 'statusSystem', self.ip, self.port).Check_version()),
-                    verify=False, headers=headers)
-                response = json.loads(post.content.decode('utf-8'))
-                Alias = str(response["data"]["alias"])
-                return Alias
-            if self.version == 'v3':
-                post = requests.get(
-                    str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
-                    verify=False, headers=headers)
-                response = json.loads(post.content.decode('utf-8'))
-                Alias = str(response["data"]["device"]["alias"])
 
+    def GetAlias(self):
+        if self.version == 'v1':
+            post = requests.get(str(url_constructor.URLs(self.version, 'statusSystem', self.ip, self.port).Check_version()), verify=False, headers=headers)
+            response = json.loads(post.content.decode('utf-8'))
+            Alias = str(response["data"]["alias"])
+            return Alias
+        if self.version == 'v3':
+            post = requests.get(
+                str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
+                verify=False, headers=headers)
+            response = json.loads(post.content.decode('utf-8'))
+            Alias = str(response["data"]["device"]["alias"])
             return Alias
 
     def GetHasUpdate(self):
@@ -387,7 +416,7 @@ class POST:
             post = requests.get(str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
                                 verify=False, headers=headers)
             response = json.loads(post.content.decode('utf-8'))
-            Alias = str(response["data"]["wan"]["ipv4"]["opmode"])
+            Alias = str(response["data"]["device"]["network_mode"])
             if Alias == "router":
                 Alias = "Roteador"
                 return Alias
@@ -460,21 +489,6 @@ class POST:
             else:
                 result = round(result/size/1000/1000,3)
                 return result
-
-    def SocketTest(self):
-
-        try:
-            init = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            init.settimeout(5)
-            init.connect((self.ip, int(self.socket)))
-            # init.timeout(3)
-            init.shutdown(2)
-            return 1
-
-        except socket.error as e:
-            return 0
-            #print("Something went wrong inside of Socket_test module:", sys.exc_info()[0], sys.exc_info()[1])
-
 
 
 
