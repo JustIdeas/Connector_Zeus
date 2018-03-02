@@ -131,7 +131,6 @@ class Decide:
         if self.mode == 'socket':
             response = get_func.POST(0, self.ip, self.port, self.user, self.pas, self.channel, self.version,
                                      self.interface, self.socket).SocketTest()
-
             print(response)
 
         if self.mode == 'deviceowner':
