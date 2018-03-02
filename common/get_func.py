@@ -2,6 +2,7 @@ import requests
 import json
 import datetime
 
+from common import Getvendor
 from common import url_constructor
 headers = {}
 class POST:
@@ -25,6 +26,39 @@ class POST:
             headers['Authorization'] = 'Bauer ' + token
 
         return True
+
+    def GetClientsMac(self):
+
+        post = requests.get(str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()), verify=False, headers=headers)
+        response = json.loads(post.content.decode('utf-8'))
+        vendorinfo = []
+        if self.version == 'v1':
+            if response['data']['clients'] == []:
+                return(0)
+            else:
+                clients_count = (len(response['data']['clients']))
+                for i in range(clients_count):
+
+                   if response['data']['clients'][i]['interface'] == 'wireless':
+
+                       Macs = response['data']['clients'][i]['mac_address']
+                       vendorinfo.append(Getvendor.Vendor(Macs).run())
+
+
+                return vendorinfo
+
+        elif self.version == 'v3' and self.interface == '2Ghz':
+            if response['data']['wireless']['radios'][0]['connected_clients'] == 0:
+                return 0
+            else:
+                return response['data']['wireless']['radios'][0]['connected_clients']
+        elif self.version == 'v3' and self.interface == '5Ghz':
+            if response['data']['wireless']['radios'][1]['connected_clients'] == 0:
+                return(0)
+            else:
+                return(response['data']['wireless']['radios'][1]['connected_clients'])
+
+
 
     def GetClients(self):
 
