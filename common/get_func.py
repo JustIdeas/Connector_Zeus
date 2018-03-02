@@ -1,6 +1,8 @@
 import requests
 import json
 import datetime
+import socket
+import sys
 
 from common import Getvendor
 from common import url_constructor
@@ -490,7 +492,19 @@ class POST:
                 result = round(result/size/1000/1000,3)
                 return result
 
+    def SocketTest(self):
 
+        try:
+            init = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            init.settimeout(5)
+            init.connect((self.ip, int(self.socket)))
+            # init.timeout(3)
+            init.shutdown(2)
+            return 1
+
+        except socket.error as e:
+                    return 0
+        #print("Something went wrong inside of Socket_test module:", sys.exc_info()[0], sys.exc_info()[1])
 
 
 
