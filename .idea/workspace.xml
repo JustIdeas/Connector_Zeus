@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="04db121e-30d4-4658-b03f-452f7713bf93" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/common/Getvendor.py" />
-      <change beforePath="$PROJECT_DIR$/.idea/Connector_Zeus.iml" afterPath="$PROJECT_DIR$/.idea/Connector_Zeus.iml" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/common/get_func.py" afterPath="$PROJECT_DIR$/common/get_func.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -88,7 +84,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="V002_Review_Get_func" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
   </component>
@@ -381,7 +377,14 @@
       <option name="project" value="LOCAL" />
       <updated>1519054232121</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary=" New function:&#10;&#10;mode == deviceowner&#10;&#10;what it does:&#10;&#10;Get all macs from cliente wireless list of the device, and for each one, uses the Getvendor Package to find out the vendors name of that client mac.&#10;&#10;This was implemented only for API v1, for API v3 will be implemented laterr.">
+      <created>1519962480246</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1519962480246</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -417,7 +420,8 @@
     <MESSAGE value="Fixed all bugs related to the new API Version control and URL constructor" />
     <MESSAGE value="Changing the URLs to API v3;&#10;Creating variables to control witch 'radio0' 2ghz and 'radio1'5ghz interfaces  you whant to Get Info." />
     <MESSAGE value="New function:&#10;&#10;Socket test, mode socket, --soc {port}" />
-    <option name="LAST_COMMIT_MESSAGE" value="New function:&#10;&#10;Socket test, mode socket, --soc {port}" />
+    <MESSAGE value=" New function:&#10;&#10;mode == deviceowner&#10;&#10;what it does:&#10;&#10;Get all macs from cliente wireless list of the device, and for each one, uses the Getvendor Package to find out the vendors name of that client mac.&#10;&#10;This was implemented only for API v1, for API v3 will be implemented laterr." />
+    <option name="LAST_COMMIT_MESSAGE" value=" New function:&#10;&#10;mode == deviceowner&#10;&#10;what it does:&#10;&#10;Get all macs from cliente wireless list of the device, and for each one, uses the Getvendor Package to find out the vendors name of that client mac.&#10;&#10;This was implemented only for API v1, for API v3 will be implemented laterr." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager />
