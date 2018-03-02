@@ -112,7 +112,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="V001_NewGetFunc" />
+        <entry key="$PROJECT_DIR$" value="V005_MAC_ProductOwner" />
       </map>
     </option>
   </component>
@@ -402,7 +402,14 @@
       <option name="project" value="LOCAL" />
       <updated>1519956157876</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="New function:&#10;&#10;mode == deviceowner&#10;&#10;what it does:&#10;&#10;Get all macs from cliente wireless list of the device, and for each one, uses the Getvendor Package to find out the vendors name of that client mac.&#10;&#10;This was implemented only for API v1, for API v3 will be implemented later.">
+      <created>1519960116725</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1519960116725</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="ToolWindowManager">
