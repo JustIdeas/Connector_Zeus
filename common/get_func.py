@@ -346,22 +346,22 @@ class POST:
             model = str(response["data"]["device"]["model"])
             return model
 
-        def GetAlias(self):
-            if self.version == 'v1':
-                post = requests.get(
-                    str(url_constructor.URLs(self.version, 'statusSystem', self.ip, self.port).Check_version()),
-                    verify=False, headers=headers)
-                response = json.loads(post.content.decode('utf-8'))
-                Alias = str(response["data"]["alias"])
-                return Alias
-            if self.version == 'v3':
-                post = requests.get(
-                    str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
-                    verify=False, headers=headers)
-                response = json.loads(post.content.decode('utf-8'))
-                Alias = str(response["data"]["device"]["alias"])
-
+    def GetAlias(self):
+        if self.version == 'v1':
+            post = requests.get(
+                str(url_constructor.URLs(self.version, 'statusSystem', self.ip, self.port).Check_version()),
+                verify=False, headers=headers)
+            response = json.loads(post.content.decode('utf-8'))
+            Alias = str(response["data"]["alias"])
             return Alias
+        if self.version == 'v3':
+            post = requests.get(
+                str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
+                verify=False, headers=headers)
+            response = json.loads(post.content.decode('utf-8'))
+            Alias = str(response["data"]["device"]["alias"])
+
+        return Alias
 
     def GetHasUpdate(self):
 
