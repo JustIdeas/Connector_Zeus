@@ -6,7 +6,10 @@ import sys
 
 from common import url_constructor
 from common import Getvendor
+from collections import Counter
+
 headers = {}
+
 class POST:
     def __init__(self, params='', ip='', port='',
                  user='', passw='', channel='', version='', interface='', sock='9090'):
@@ -48,6 +51,13 @@ class POST:
                         vendorinfo.append(Getvendor.Vendor(Macs).run())
 
                 return vendorinfo
+
+    def GetCountVendorsMac(self):
+        count = POST.GetClientsMac(self)
+        result = Counter(count)
+        print(sum(result.values()))
+        return str(result).strip('Counter').strip('(').strip(')').strip('{').strip("}")
+
 
     def GetClients(self):
 
