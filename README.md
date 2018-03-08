@@ -31,6 +31,10 @@ To use the Connector_Zeus, is simple, you just need to pass some parameters to f
 
 **Get Device Uptime:** Connector_Zeus.py -m uptime -ip {HOST.CONN} -p {$HTTPS_PORT} -user {$LOGIN_USER} -pas {$LOGIN_PASS};
 
+**Get Device Vendors:** Connector_Zeus.py -m deviceowner -ip {HOST.CONN} -p {$HTTPS_PORT} -user {$LOGIN_USER} -pas {$LOGIN_PASS};
+
+**Get Total Device Vendors:** Connector_Zeus.py -m countdevowner -ip {HOST.CONN} -p {$HTTPS_PORT} -user {$LOGIN_USER} -pas {$LOGIN_PASS};
+
 **Socket to the device:** Connector_Zeus.py -m socket -ip {HOST.CONN} -soc {$HTTPS_PORT};
 
 
