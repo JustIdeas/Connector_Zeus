@@ -6,7 +6,10 @@ import sys
 
 from common import url_constructor
 from common import Getvendor
+from collections import Counter
+
 headers = {}
+
 class POST:
     def __init__(self, params='', ip='', port='',
                  user='', passw='', channel='', version='', interface='', sock='9090'):
@@ -30,13 +33,13 @@ class POST:
 
         return True
 
-    def GetClientsMac(self):
-
-        post = requests.get(str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
-                            verify=False, headers=headers)
-        response = json.loads(post.content.decode('utf-8'))
-        vendorinfo = []
+    def GetClientsMac(self,sepVendor=0):
+        self.sepVendor = sepVendor
         if self.version == 'v1':
+            post = requests.get(str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
+                                verify=False, headers=headers)
+            response = json.loads(post.content.decode('utf-8'))
+            vendorinfo = []
             if response['data']['clients'] == []:
                 return (0)
             else:
@@ -47,18 +50,81 @@ class POST:
                         Macs = response['data']['clients'][i]['mac_address']
                         vendorinfo.append(Getvendor.Vendor(Macs).run())
 
+                if len(vendorinfo) == 0:
+                    return 0
+                if self.sepVendor == 1:
+                    if len(vendorinfo) == 0:
+                        return 0
+                    return vendorinfo
+
+                result = Counter(vendorinfo)
+                return str(result).strip('Counter').strip('(').strip(')').strip('{').strip('}')
+
+        if self.version == 'v3':
+
+            post = requests.get(str(url_constructor.URLs(self.version, 'clientsmac2Ghz', self.ip, self.port).Check_version()),
+                                verify=False, headers=headers)
+            response = json.loads(post.content.decode('utf-8'))
+            vendorinfo = []
+            if response['data']['clients'] == 0:
+                return (0)
+            else:
+                clients_count = (len(response['data']['clients']))
+                for i in range(clients_count):
+                    if response['data']['clients'][i]['interface'] == 'wireless':
+                        Macs = response['data']['clients'][i]['mac_address']
+                        vendorinfo.append(Getvendor.Vendor(Macs).run())
+
+            post = requests.get(
+                str(url_constructor.URLs(self.version, 'clientsmac5Ghz', self.ip, self.port).Check_version()),
+                verify=False, headers=headers)
+            response = json.loads(post.content.decode('utf-8'))
+            if response['data']['clients'] == 0:
+                return (0)
+            else:
+                clients_count = (len(response['data']['clients']))
+                for i in range(clients_count):
+                    if response['data']['clients'][i]['interface'] == 'wireless':
+                        Macs = response['data']['clients'][i]['mac_address']
+                        vendorinfo.append(Getvendor.Vendor(Macs).run())
+            if len(vendorinfo) == 0:
+                return 0
+            if self.sepVendor == 1:
+                if len(vendorinfo) == 0:
+                    return 0
                 return vendorinfo
+            if self.sepVendor == 1:
+                return vendorinfo
+
+            result = Counter(vendorinfo)
+            return str(result).strip('Counter').strip('(').strip(')').strip('{').strip('}')
+
+
+
+
+    def GetCountVendorsMac(self):
+        count = POST.GetClientsMac(self, 1)
+        if count == 0:
+            return 0
+        count = len(list(set(count)))
+        return count
+
 
     def GetClients(self):
 
         post = requests.get(str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),verify=False, headers=headers)
         response = json.loads(post.content.decode('utf-8'))
-
+        count = 0
         if self.version == 'v1':
             if response['data']['clients'] == []:
                 return(0)
             else:
-                return(len(response['data']['clients']))
+                clients_count = (len(response['data']['clients']))
+                for i in range(clients_count):
+                    if response['data']['clients'][i]['interface'] == 'wireless':
+                        count = count + 1
+
+                return count
         elif self.version == 'v3' and self.interface == '2Ghz':
             if response['data']['wireless']['radios'][0]['connected_clients'] == 0:
                 return 0
