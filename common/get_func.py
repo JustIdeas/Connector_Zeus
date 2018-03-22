@@ -7,6 +7,7 @@ import sys
 from common import url_constructor
 from common import Getvendor
 from collections import Counter
+from common import csv
 
 headers = {}
 
@@ -36,6 +37,7 @@ class POST:
     def GetClientsMac(self,sepVendor=0):
         self.sepVendor = sepVendor
         if self.version == 'v1':
+            csv.CSV('d').construct()
             post = requests.get(str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
                                 verify=False, headers=headers)
             response = json.loads(post.content.decode('utf-8'))
@@ -98,6 +100,7 @@ class POST:
 
             result = Counter(vendorinfo)
             return str(result).strip('Counter').strip('(').strip(')').strip('{').strip('}')
+
 
 
 
