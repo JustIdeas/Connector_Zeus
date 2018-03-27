@@ -3,7 +3,7 @@ from common import get_func
 
 class Decide:
 
-    def __init__(self, mode='', ip='', port='', user='', pas='', channel='', version='', interface='', sock='9090'):
+    def __init__(self, mode='', ip='', port='', user='', pas='', channel='', version='', interface='', sock='9090', db='zabbix', Hid=1, Iid=1):
         self.mode = mode
         self.ip = ip
         self.port = port
@@ -13,6 +13,9 @@ class Decide:
         self.version = version
         self.interface = interface
         self.socket = sock
+        self.db = db
+        self.Hid = Hid
+        self.Iid = Iid
 
     def check(self):
 
@@ -21,6 +24,11 @@ class Decide:
                           self.pas, self.channel, self.version, self.interface).login()
             response = get_func.POST(0, self.ip, self.port, self.user, self.pas, self.channel, self.version,
                                      self.interface).GetClients()
+            print(response)
+
+        if self.mode == 'dbcsv':
+            response = get_func.POST(0, self.ip, self.port, self.user, self.pas, self.channel, self.version,
+                                     self.interface, self.socket, self.db, self.Hid, self.Iid ).dbCSV()
             print(response)
 
         if self.mode == 'version':

@@ -38,6 +38,15 @@ def check_arg(args=None):
     parser.add_argument('-soc', '--socket',
                         help='socket test port',
                         default='socket')
+    parser.add_argument('-db', '--database',
+                        help='name of yout database',
+                        default='zabbix')
+    parser.add_argument('-Hid', '--hostid',
+                        help='Host ID',
+                        default='1')
+    parser.add_argument('-Iid', '--itemid',
+                        help='Item ID',
+                        default='1')
     results = parser.parse_args(args)
     return (results.mode,
             results.ip,
@@ -47,17 +56,20 @@ def check_arg(args=None):
             results.channel,
             results.version,
             results.interface,
-            results.socket
+            results.socket,
+            results.database,
+            results.hostid,
+            results.itemid
             )
 
 
 def main():
-    m, ip, p, user, pas, ch, ver, int, soc = check_arg(sys.argv[1:])
+    m, ip, p, user, pas, ch, ver, int, soc, db, Hid, Iid = check_arg(sys.argv[1:])
+    #print('mode:', m, 'ip:', ip, 'port:', p, 'username:', user, 'password:', pas, 'channel:', ch, ver, int, soc, db, Hid, Iid)
+
+    decide_func.Decide(m, ip, p, user, pas, ch, ver, int, soc, db, Hid, Iid).check()
 
 
-    decide_func.Decide(m, ip, p, user, pas, ch, ver, int, soc).check()
-
-    #print('mode:', m,'ip:', ip, 'port:', p, 'username:', user, 'password:', pas, 'channel:', ch, ver, int)
 
 main()
 

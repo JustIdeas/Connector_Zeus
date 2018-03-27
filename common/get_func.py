@@ -8,12 +8,14 @@ from common import url_constructor
 from common import Getvendor
 from collections import Counter
 from common import csv
+from common import db_consult
+from common import csv
 
 headers = {}
 
 class POST:
     def __init__(self, params='', ip='', port='',
-                 user='', passw='', channel='', version='', interface='', sock='9090'):
+                 user='', passw='', channel='', version='', interface='', sock='9090', db='zabbix', Hid=1, Iid=1):
         self.params = params
         self.ip = ip
         self.user = user
@@ -23,6 +25,9 @@ class POST:
         self.version = version
         self.interface = interface
         self.socket = sock
+        self.db = db
+        self.Hid = Hid
+        self.Iid = Iid
 
     def login(self):
         payload = self.params
@@ -33,6 +38,12 @@ class POST:
             headers['Authorization'] = 'Bauer ' + token
 
         return True
+
+    def dbCSV(self):
+        infoDB = db_consult.dbConsult(self.ip, self.port, self.user, self.passw, self.db, self.Hid, self.Iid).consult()
+
+        result = csv.CSV(infoDB).construct()
+        return "file Created"
 
     def GetClientsMac(self,sepVendor=0):
         self.sepVendor = sepVendor

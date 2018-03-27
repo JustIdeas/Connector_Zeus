@@ -7,15 +7,26 @@ class CSV:
 
 
     def construct(self):
-        list = {'Samsung Electronics Co.,Ltd': 14, 'Apple, Inc.': 10, 'Motorola Mobility LLC, a Lenovo Company': 4, 'LG Electronics (Mobile Communications)': 3, 'LG Electronics': 2, 'ASUSTek COMPUTER INC.': 1, 'Microsoft Corporation': 1, 'T&A Mobile Phones': 1}
-        Lowner = []
-        LValue = []
-        for key, value in list.items():
-            print(key, value)
-            Lowner.append(key)
-            LValue.append(value)
 
-            zipList = zip(Lowner, LValue)
+        #print("info hostID:", row[0], "info itemID:", row[1], "info value:", row[2], "info Clock:", row[3])
+        listI = self.info
+        LHostId = []
+        LItemId = []
+        LValue = []
+        LClock = []
+        translateList = listI[2]
+        print("LISTA: ",translateList)
+        #for key, value in translateList.items():
+            #LValue.append(value)
+        for i in listI:
+           # print(i[0], i[1], i[2], i[3])
+
+            LHostId.append(i[0])
+            LItemId.append(i[1])
+            LClock.append(i[3])
+
+
+            zipList = zip(LHostId, LItemId, LValue, LClock)
         try:
             with open('names.csv', 'w') as csvfile:
 
