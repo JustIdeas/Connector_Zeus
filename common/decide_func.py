@@ -3,7 +3,7 @@ from common import get_func
 
 class Decide:
 
-    def __init__(self, mode='', ip='', port='', user='', pas='', channel='', version='', interface='', sock='9090', db='zabbix', Hid=1, Iid=1):
+    def __init__(self, mode='', ip='', port='', user='', pas='', channel='', version='', interface='', sock='9090', db='zabbix', Hid='1', Iid='1'):
         self.mode = mode
         self.ip = ip
         self.port = port

@@ -30,14 +30,16 @@ class POST:
         self.Iid = Iid
 
     def login(self):
-        payload = self.params
-        post = requests.post(str(url_constructor.URLs(self.version, 'login', self.ip, self.port).Check_version()), data=json.dumps(payload), verify=False, headers=headers)
+        try:
+            payload = self.params
+            post = requests.post(str(url_constructor.URLs(self.version, 'login', self.ip, self.port).Check_version()), data=json.dumps(payload), verify=False, headers=headers, timeout=10)
 
-        if post.status_code == 200:
-            token = json.loads(post.content.decode('utf-8'))['data']['Token']
-            headers['Authorization'] = 'Bauer ' + token
-
-        return True
+            if post.status_code == 200:
+                token = json.loads(post.content.decode('utf-8'))['data']['Token']
+                headers['Authorization'] = 'Bauer ' + token
+            return True
+        except (requests.exceptions.HTTPError, requests.exceptions.ConnectTimeout) as e:
+            return 0
 
     def dbCSV(self):
         infoDB = db_consult.dbConsult(self.ip, self.port, self.user, self.passw, self.db, self.Hid, self.Iid).consult()
@@ -48,7 +50,6 @@ class POST:
     def GetClientsMac(self,sepVendor=0):
         self.sepVendor = sepVendor
         if self.version == 'v1':
-            csv.CSV('d').construct()
             post = requests.get(str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
                                 verify=False, headers=headers)
             response = json.loads(post.content.decode('utf-8'))

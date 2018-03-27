@@ -1,5 +1,8 @@
 import csv
 import sys
+import ast
+import time
+
 class CSV:
 
     def __init__(self, info=''):
@@ -10,23 +13,32 @@ class CSV:
 
         #print("info hostID:", row[0], "info itemID:", row[1], "info value:", row[2], "info Clock:", row[3])
         listI = self.info
+        #print (listI)
         LHostId = []
         LItemId = []
+        LOwner = []
         LValue = []
         LClock = []
-        translateList = listI[2]
-        print("LISTA: ",translateList)
-        #for key, value in translateList.items():
-            #LValue.append(value)
-        for i in listI:
-           # print(i[0], i[1], i[2], i[3])
-
-            LHostId.append(i[0])
-            LItemId.append(i[1])
-            LClock.append(i[3])
 
 
-            zipList = zip(LHostId, LItemId, LValue, LClock)
+
+
+        for item in listI:
+           #print (item[2])
+
+           if item[2] != "0" and item[2].find("Traceback") == -1:
+                DictI = ast.literal_eval("{" + item[2] + "}")
+                for value, key in DictI.items():
+                    print("Owner:", value, "Value", key)
+
+                    LHostId.append(item[0])
+                    LItemId.append(item[1])
+                    LOwner.append(value)
+                    LValue.append(key)
+                    LClock.append(time.strftime("%D %H:%M", time.localtime(int(item[3]))))
+
+
+        zipList = zip(LHostId, LItemId, LOwner , LValue, LClock)
         try:
             with open('names.csv', 'w') as csvfile:
 
