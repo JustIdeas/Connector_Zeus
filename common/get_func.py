@@ -7,12 +7,15 @@ import sys
 from common import url_constructor
 from common import Getvendor
 from collections import Counter
+from common import csv
+from common import db_consult
+from common import csv
 
 headers = {}
 
 class POST:
     def __init__(self, params='', ip='', port='',
-                 user='', passw='', channel='', version='', interface='', sock='9090'):
+                 user='', passw='', channel='', version='', interface='', sock='9090', db='zabbix', Hid=1, Iid=1):
         self.params = params
         self.ip = ip
         self.user = user
@@ -22,16 +25,27 @@ class POST:
         self.version = version
         self.interface = interface
         self.socket = sock
+        self.db = db
+        self.Hid = Hid
+        self.Iid = Iid
 
     def login(self):
-        payload = self.params
-        post = requests.post(str(url_constructor.URLs(self.version, 'login', self.ip, self.port).Check_version()), data=json.dumps(payload), verify=False, headers=headers)
+        try:
+            payload = self.params
+            post = requests.post(str(url_constructor.URLs(self.version, 'login', self.ip, self.port).Check_version()), data=json.dumps(payload), verify=False, headers=headers, timeout=10)
 
-        if post.status_code == 200:
-            token = json.loads(post.content.decode('utf-8'))['data']['Token']
-            headers['Authorization'] = 'Bauer ' + token
+            if post.status_code == 200:
+                token = json.loads(post.content.decode('utf-8'))['data']['Token']
+                headers['Authorization'] = 'Bauer ' + token
+            return True
+        except (requests.exceptions.HTTPError, requests.exceptions.ConnectTimeout) as e:
+            return 0
 
-        return True
+    def dbCSV(self):
+        infoDB = db_consult.dbConsult(self.ip, self.port, self.user, self.passw, self.db, self.Hid, self.Iid).consult()
+
+        result = csv.CSV(infoDB).construct()
+        return "file Created"
 
     def GetClientsMac(self,sepVendor=0):
         self.sepVendor = sepVendor
@@ -98,6 +112,7 @@ class POST:
 
             result = Counter(vendorinfo)
             return str(result).strip('Counter').strip('(').strip(')').strip('{').strip('}')
+
 
 
 
