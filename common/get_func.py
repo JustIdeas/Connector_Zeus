@@ -59,14 +59,22 @@ class POST:
             else:
                 clients_count = (len(response['data']['clients']))
                 for i in range(clients_count):
-
-                    if response['data']['clients'][i]['interface'] == 'wireless':
-                        Macs = response['data']['clients'][i]['mac_address']
-                        vendorinfo.append(Getvendor.Vendor(Macs).run())
-
+                    if self.sepVendor == 2:
+                        if response['data']['clients'][i]['interface'] == 'wireless':
+                            Macs = response['data']['clients'][i]['mac_address']
+                            vendorinfo.append(Getvendor.Vendor(Macs).run())
+                            vendorinfo.append(Macs)
+                    else:
+                        if response['data']['clients'][i]['interface'] == 'wireless':
+                            Macs = response['data']['clients'][i]['mac_address']
+                            vendorinfo.append(Getvendor.Vendor(Macs).run())
                 if len(vendorinfo) == 0:
                     return 0
                 if self.sepVendor == 1:
+                    if len(vendorinfo) == 0:
+                        return 0
+                    return vendorinfo
+                if self.sepVendor == 2:
                     if len(vendorinfo) == 0:
                         return 0
                     return vendorinfo
@@ -97,24 +105,27 @@ class POST:
                 return (0)
             else:
                 clients_count = (len(response['data']['clients']))
-                for i in range(clients_count):
-                    if response['data']['clients'][i]['interface'] == 'wireless':
-                        Macs = response['data']['clients'][i]['mac_address']
-                        vendorinfo.append(Getvendor.Vendor(Macs).run())
+                if self.sepVendor == 2:
+                    for i in range(clients_count):
+                        if response['data']['clients'][i]['interface'] == 'wireless':
+                            Macs = response['data']['clients'][i]['mac_address']
+                            vendorinfo.append(Getvendor.Vendor(Macs).run())
+                            vendorinfo.append(Macs)
+                else:
+                    for i in range(clients_count):
+                        if response['data']['clients'][i]['interface'] == 'wireless':
+                            Macs = response['data']['clients'][i]['mac_address']
+                            vendorinfo.append(Getvendor.Vendor(Macs).run())
             if len(vendorinfo) == 0:
                 return 0
             if self.sepVendor == 1:
                 if len(vendorinfo) == 0:
                     return 0
                 return vendorinfo
-            if self.sepVendor == 1:
-                return vendorinfo
+
 
             result = Counter(vendorinfo)
             return str(result).strip('Counter').strip('(').strip(')').strip('{').strip('}')
-
-
-
 
 
     def GetCountVendorsMac(self):
@@ -123,6 +134,12 @@ class POST:
             return 0
         count = len(list(set(count)))
         return count
+
+    def GetVendorAndMac(self):
+        Return = POST.GetClientsMac(self, 2)
+        if Return == 0:
+            return 0
+        return Return
 
 
     def GetClients(self):

@@ -34,7 +34,7 @@ class CSV:
                         LItemId.append(item[1])
                         LOwner.append(value)
                         LValue.append(key)
-                        LClock.append(time.strftime("%D %H"+"h", time.localtime(int(item[3]))))
+                        LClock.append(time.strftime("%D %H"+"h"+" %M", time.localtime(int(item[3]))))
 
             zipList = zip(LHostId, LItemId, LOwner , LValue, LClock)
             columns = ("HostID", "ItemID", "Fabricantes", "Qtd", "Data")
