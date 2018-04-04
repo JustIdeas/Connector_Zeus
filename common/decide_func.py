@@ -154,3 +154,10 @@ class Decide:
             response = get_func.POST(0, self.ip, self.port, self.user, self.pas, self.channel, self.version,
                                      self.interface).GetCountVendorsMac()
             print(response)
+
+        if self.mode == 'ownermac':
+            get_func.POST({'data': {'username': self.user, 'password': str(self.pas)}}, self.ip, self.port, self.user,
+                          self.pas, self.channel, self.version, self.interface).login()
+            response = get_func.POST(0, self.ip, self.port, self.user, self.pas, self.channel, self.version,
+                                     self.interface).GetVendorAndMac()
+            print(response)

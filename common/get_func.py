@@ -3,6 +3,7 @@ import json
 import datetime
 import socket
 import sys
+import ast
 
 from common import url_constructor
 from common import Getvendor
@@ -44,7 +45,7 @@ class POST:
     def dbCSV(self):
         infoDB = db_consult.dbConsult(self.ip, self.port, self.user, self.passw, self.db, self.Hid, self.Iid).consult()
 
-        result = csv.CSV(infoDB).construct()
+        result = csv.CSV(infoDB, self.ip).construct()
         return "file Created"
 
     def GetClientsMac(self,sepVendor=0):
@@ -54,22 +55,34 @@ class POST:
                                 verify=False, headers=headers)
             response = json.loads(post.content.decode('utf-8'))
             vendorinfo = []
+            MacsInfo = []
             if response['data']['clients'] == []:
                 return (0)
             else:
                 clients_count = (len(response['data']['clients']))
                 for i in range(clients_count):
+                    if self.sepVendor == 2:
+                        if response['data']['clients'][i]['interface'] == 'wireless':
+                            Macs = response['data']['clients'][i]['mac_address']
+                            vendorinfo.append(Getvendor.Vendor(Macs).run())
+                            MacsInfo.append(Macs)
 
-                    if response['data']['clients'][i]['interface'] == 'wireless':
-                        Macs = response['data']['clients'][i]['mac_address']
-                        vendorinfo.append(Getvendor.Vendor(Macs).run())
 
+                    else:
+                        if response['data']['clients'][i]['interface'] == 'wireless':
+                            Macs = response['data']['clients'][i]['mac_address']
+                            vendorinfo.append(Getvendor.Vendor(Macs).run())
                 if len(vendorinfo) == 0:
                     return 0
                 if self.sepVendor == 1:
                     if len(vendorinfo) == 0:
                         return 0
                     return vendorinfo
+                if self.sepVendor == 2:
+                    if len(vendorinfo) == 0:
+                        return 0
+                    resulting = zip(vendorinfo,MacsInfo)
+                    return  str(dict(resulting)).strip("{").strip("}")
 
                 result = Counter(vendorinfo)
                 return str(result).strip('Counter').strip('(').strip(')').strip('{').strip('}')
@@ -97,24 +110,27 @@ class POST:
                 return (0)
             else:
                 clients_count = (len(response['data']['clients']))
-                for i in range(clients_count):
-                    if response['data']['clients'][i]['interface'] == 'wireless':
-                        Macs = response['data']['clients'][i]['mac_address']
-                        vendorinfo.append(Getvendor.Vendor(Macs).run())
+                if self.sepVendor == 2:
+                    for i in range(clients_count):
+                        if response['data']['clients'][i]['interface'] == 'wireless':
+                            Macs = response['data']['clients'][i]['mac_address']
+                            vendorinfo.append(Getvendor.Vendor(Macs).run())
+                            vendorinfo.append(Macs)
+                else:
+                    for i in range(clients_count):
+                        if response['data']['clients'][i]['interface'] == 'wireless':
+                            Macs = response['data']['clients'][i]['mac_address']
+                            vendorinfo.append(Getvendor.Vendor(Macs).run())
             if len(vendorinfo) == 0:
                 return 0
             if self.sepVendor == 1:
                 if len(vendorinfo) == 0:
                     return 0
                 return vendorinfo
-            if self.sepVendor == 1:
-                return vendorinfo
+
 
             result = Counter(vendorinfo)
             return str(result).strip('Counter').strip('(').strip(')').strip('{').strip('}')
-
-
-
 
 
     def GetCountVendorsMac(self):
@@ -123,6 +139,12 @@ class POST:
             return 0
         count = len(list(set(count)))
         return count
+
+    def GetVendorAndMac(self):
+        Return = POST.GetClientsMac(self, 2)
+        if Return == 0:
+            return 0
+        return Return
 
 
     def GetClients(self):
