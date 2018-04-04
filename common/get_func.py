@@ -3,6 +3,7 @@ import json
 import datetime
 import socket
 import sys
+import ast
 
 from common import url_constructor
 from common import Getvendor
@@ -44,7 +45,7 @@ class POST:
     def dbCSV(self):
         infoDB = db_consult.dbConsult(self.ip, self.port, self.user, self.passw, self.db, self.Hid, self.Iid).consult()
 
-        result = csv.CSV(infoDB).construct()
+        result = csv.CSV(infoDB, self.ip).construct()
         return "file Created"
 
     def GetClientsMac(self,sepVendor=0):
@@ -54,6 +55,7 @@ class POST:
                                 verify=False, headers=headers)
             response = json.loads(post.content.decode('utf-8'))
             vendorinfo = []
+            MacsInfo = []
             if response['data']['clients'] == []:
                 return (0)
             else:
@@ -63,7 +65,9 @@ class POST:
                         if response['data']['clients'][i]['interface'] == 'wireless':
                             Macs = response['data']['clients'][i]['mac_address']
                             vendorinfo.append(Getvendor.Vendor(Macs).run())
-                            vendorinfo.append(Macs)
+                            MacsInfo.append(Macs)
+
+
                     else:
                         if response['data']['clients'][i]['interface'] == 'wireless':
                             Macs = response['data']['clients'][i]['mac_address']
@@ -77,7 +81,8 @@ class POST:
                 if self.sepVendor == 2:
                     if len(vendorinfo) == 0:
                         return 0
-                    return vendorinfo
+                    resulting = zip(vendorinfo,MacsInfo)
+                    return  str(dict(resulting)).strip("{").strip("}")
 
                 result = Counter(vendorinfo)
                 return str(result).strip('Counter').strip('(').strip(')').strip('{').strip('}')

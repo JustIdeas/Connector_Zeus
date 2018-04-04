@@ -5,10 +5,9 @@ import time
 
 class CSV:
 
-    def __init__(self, info=''):
+    def __init__(self, info='', ip=''):
         self.info = info
-
-
+        self.ip = ip
     def construct(self):
         try:
             listI = self.info
@@ -24,11 +23,11 @@ class CSV:
             for item in listI:
 
                if item[2] != "0" and item[2].find("Traceback") == -1 and ':' in item[2]:
-                    print(item[2])
+                    #print(item[2])
                     DictI = ast.literal_eval("{" + item[2] + "}")
 
                     for value, key in DictI.items():
-                        print("Owner:", value, "Value", key)
+                        #print("Owner:", value, "Value", key)
 
                         LHostId.append(item[0])
                         LItemId.append(item[1])
@@ -40,7 +39,7 @@ class CSV:
             columns = ("HostID", "ItemID", "Fabricantes", "Qtd", "Data")
             if columns is None:
                 return "Empty Columns"
-            with open('names.csv', 'w') as csvfile:
+            with open(self.ip+'.result.csv', 'w') as csvfile:
                 writer = csv.writer(csvfile, delimiter=';', lineterminator='\n')
                 writer.writerow(columns)
                 for row in zipList:
