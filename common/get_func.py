@@ -4,6 +4,7 @@ import datetime
 import socket
 import sys
 import ast
+import urllib3
 
 from common import url_constructor
 from common import Getvendor
@@ -13,6 +14,8 @@ from common import db_consult
 from common import csv
 
 headers = {}
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 
 class POST:
     def __init__(self, params='', ip='', port='',
