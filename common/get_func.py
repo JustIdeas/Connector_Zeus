@@ -12,6 +12,7 @@ from collections import Counter
 from common import csv
 from common import db_consult
 from common import csv
+from common import db_constructor
 
 headers = {}
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -19,7 +20,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 class POST:
     def __init__(self, params='', ip='', port='',
-                 user='', passw='', channel='', version='', interface='', sock='9090', db='zabbix', Hid=1, Iid=1):
+                 user='', passw='', channel='', version='', interface='', sock='9090', db='zabbix', Hid='1', Iid='1', ta=''):
         self.params = params
         self.ip = ip
         self.user = user
@@ -32,6 +33,7 @@ class POST:
         self.db = db
         self.Hid = Hid
         self.Iid = Iid
+        self.ta = ta
 
     def login(self):
         try:
@@ -44,12 +46,6 @@ class POST:
             return True
         except (requests.exceptions.HTTPError, requests.exceptions.ConnectTimeout) as e:
             return 0
-
-    def dbCSV(self):
-        infoDB = db_consult.dbConsult(self.ip, self.port, self.user, self.passw, self.db, self.Hid, self.Iid).consult()
-
-        result = csv.CSV(infoDB, self.ip).construct()
-        return "file Created"
 
     def GetClientsMac(self,sepVendor=0):
         self.sepVendor = sepVendor
@@ -600,4 +596,11 @@ class POST:
         except socket.error as e:
             return 0
             #print("Something went wrong inside of Socket_test module:", sys.exc_info()[0], sys.exc_info()[1])
+
+    def ConsultDb(self):
+        infoDB = db_consult.dbConsult(self.ip, self.port, self.user, self.passw, self.db, self.Hid, self.Iid, self.ta).consult()
+        result = csv.CSV(infoDB, self.ip).construct()
+
+        return result
+
 

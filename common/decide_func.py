@@ -3,7 +3,7 @@ from common import get_func
 
 class Decide:
 
-    def __init__(self, mode='', ip='', port='', user='', pas='', channel='', version='', interface='', sock='9090', db='zabbix', Hid='1', Iid='1'):
+    def __init__(self, mode='', ip='', port='', user='', pas='', channel='', version='', interface='', sock='9090', db='zabbix', Hid='1', Iid='1', ta=''):
         self.mode = mode
         self.ip = ip
         self.port = port
@@ -16,6 +16,7 @@ class Decide:
         self.db = db
         self.Hid = Hid
         self.Iid = Iid
+        self.ta = ta
 
     def check(self):
 
@@ -160,4 +161,10 @@ class Decide:
                           self.pas, self.channel, self.version, self.interface).login()
             response = get_func.POST(0, self.ip, self.port, self.user, self.pas, self.channel, self.version,
                                      self.interface).GetVendorAndMac()
+            print(response)
+
+        if self.mode == 'table':
+            response = get_func.POST(0, self.ip, self.port, self.user, self.pas, self.channel, self.version,
+                                     self.interface, self.socket, self.db, self.Hid, self.Iid, self.ta).ConsultDb()
+
             print(response)
