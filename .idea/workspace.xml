@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="04db121e-30d4-4658-b03f-452f7713bf93" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/common/db_constructor.py" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/Controller.py" afterPath="$PROJECT_DIR$/Controller.py" />
-      <change beforePath="$PROJECT_DIR$/common/Getvendor.py" afterPath="$PROJECT_DIR$/common/Getvendor.py" />
-      <change beforePath="$PROJECT_DIR$/common/csv.py" afterPath="$PROJECT_DIR$/common/csv.py" />
-      <change beforePath="$PROJECT_DIR$/common/db_consult.py" afterPath="$PROJECT_DIR$/common/db_consult.py" />
-      <change beforePath="$PROJECT_DIR$/common/decide_func.py" afterPath="$PROJECT_DIR$/common/decide_func.py" />
-      <change beforePath="$PROJECT_DIR$/common/get_func.py" afterPath="$PROJECT_DIR$/common/get_func.py" />
-      <change beforePath="$PROJECT_DIR$/common/w.py" afterPath="" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -585,14 +577,20 @@
       <option name="project" value="LOCAL" />
       <updated>1522973724420</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Finished the organization process, to be able to create others tables consults withou arrange all the functions. The only function needed to be changed is the db_constructor, that is used to create the Query.&#10;&#10;This is only true for querys that returns a List with this format ('': '')">
+      <created>1522990516577</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1522990516577</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25714287" sideWeight="0.46673936" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25714287" sideWeight="0.46673936" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293348" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2944384" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -631,7 +629,8 @@
     <MESSAGE value="Improving the CSV report when the info from database is not in the format of a list.&#10;&#10;Add new function that takes the Onwer name as Key and MAC as Value. This good to collect from the database and see how much devices was connect without repetition." />
     <MESSAGE value="History Text Report from the database working. Just need to create a constructor class to be able to use for different consults in the database." />
     <MESSAGE value="Disabled warning exception when using any function." />
-    <option name="LAST_COMMIT_MESSAGE" value="Disabled warning exception when using any function." />
+    <MESSAGE value="Finished the organization process, to be able to create others tables consults withou arrange all the functions. The only function needed to be changed is the db_constructor, that is used to create the Query.&#10;&#10;This is only true for querys that returns a List with this format ('': '')" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished the organization process, to be able to create others tables consults withou arrange all the functions. The only function needed to be changed is the db_constructor, that is used to create the Query.&#10;&#10;This is only true for querys that returns a List with this format ('': '')" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
