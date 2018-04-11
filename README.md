@@ -35,6 +35,15 @@ To use the Connector_Zeus, is simple, you just need to pass some parameters to f
 
 **Get Total Device Vendors:** Connector_Zeus.py -m countdevowner -ip {HOST.CONN} -p {$HTTPS_PORT} -user {$LOGIN_USER} -pas {$LOGIN_PASS};
 
+**Get info from database:** Connector_Zeus.py -m table -ip {HOST.CONN} -p {$DBport} -user {$DBuser} -pas {$DBpass}  -Hid {$HostID} -Iid {$ItemID} -db {$DBname} -ta {$DBColumn};
+
+      This item, in specific, you only can use, for now, collectin info from the items  **Get Total Device Vendors:** and **Get Device Vendors:**, and for that, each one of these itens has to insert the information on the databe as text. follow below a example of usage:
+      
+      **python .\Controller.py -m table -ip 193.192.191.190 -p 9669 -pas test -user root -Hid 10172 -Iid 35887 -db zabbix -ta history_text**
+      
+      To collect the Host ID and Item ID, the only way for now is to access you zabbix host configuration, maintain the mouse on the host that you desire, and on the link below will show it's Host ID. For the item, access the host configuration, and with the mouse on the item, you will see it's item ID.
+      
+
 **Socket to the device:** Connector_Zeus.py -m socket -ip {HOST.CONN} -soc {$HTTPS_PORT};
 
 
