@@ -12,11 +12,6 @@ class Vendor:
 
         request = urllib3.Request(url+self.mac, headers={'User-Agent' : "API Browser"})
         response = urllib3.urlopen( request )
-        #Fix: json object must be str, not 'bytes'
         reader = codecs.getreader("utf-8")
         obj = json.load(reader(response))
-
-        #Print company name
         return obj['result']['company']
-        #print company address
-        #print (obj['result']['address']);
