@@ -5,6 +5,7 @@ import socket
 import sys
 import ast
 import urllib3
+from collections import defaultdict
 
 from common import url_constructor
 from common import Getvendor
@@ -38,8 +39,8 @@ class POST:
     def login(self):
         try:
             payload = self.params
-            post = requests.post(str(url_constructor.URLs(self.version, 'login', self.ip, self.port).Check_version()), data=json.dumps(payload), verify=False, headers=headers, timeout=10)
-
+            post = requests.post(str(url_constructor.URLs(self.version, 'login', self.ip, self.port).Check_version()), data=json.dumps(payload), verify=False, headers=headers, timeout=30)
+            
             if post.status_code == 200:
                 token = json.loads(post.content.decode('utf-8'))['data']['Token']
                 headers['Authorization'] = 'Bauer ' + token
@@ -51,7 +52,7 @@ class POST:
         self.sepVendor = sepVendor
         if self.version == 'v1':
             post = requests.get(str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
-                                verify=False, headers=headers)
+                                verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             vendorinfo = []
             MacsInfo = []
@@ -61,12 +62,11 @@ class POST:
                 clients_count = (len(response['data']['clients']))
                 for i in range(clients_count):
                     if self.sepVendor == 2:
+                       #print (response['data']['clients'][i]['mac_address'] + " Interface:" + response['data']['clients'][i]['interface'] , "from scratch!!!")
                         if response['data']['clients'][i]['interface'] == 'wireless':
                             Macs = response['data']['clients'][i]['mac_address']
                             vendorinfo.append(Getvendor.Vendor(Macs).run())
                             MacsInfo.append(Macs)
-
-
                     else:
                         if response['data']['clients'][i]['interface'] == 'wireless':
                             Macs = response['data']['clients'][i]['mac_address']
@@ -80,8 +80,12 @@ class POST:
                 if self.sepVendor == 2:
                     if len(vendorinfo) == 0:
                         return 0
-                    resulting = zip(vendorinfo,MacsInfo)
-                    return  str(dict(resulting)).strip("{").strip("}")
+                    #print (vendorinfo, MacsInfo, "Befor ZIP")
+                    resulting = defaultdict(set)
+                    for c, i in zip(vendorinfo, MacsInfo):
+                        resulting[c].add(i)
+
+                    return  resulting
 
                 result = Counter(vendorinfo)
                 return str(result).strip('Counter').strip('(').strip(')').strip('{').strip('}')
@@ -89,7 +93,7 @@ class POST:
         if self.version == 'v3':
 
             post = requests.get(str(url_constructor.URLs(self.version, 'clientsmac2Ghz', self.ip, self.port).Check_version()),
-                                verify=False, headers=headers)
+                                verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             vendorinfo = []
             if response['data']['clients'] == 0:
@@ -103,7 +107,7 @@ class POST:
 
             post = requests.get(
                 str(url_constructor.URLs(self.version, 'clientsmac5Ghz', self.ip, self.port).Check_version()),
-                verify=False, headers=headers)
+                verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             if response['data']['clients'] == 0:
                 return (0)
@@ -148,7 +152,7 @@ class POST:
 
     def GetClients(self):
 
-        post = requests.get(str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),verify=False, headers=headers)
+        post = requests.get(str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),verify=False, headers=headers, timeout=30)
         response = json.loads(post.content.decode('utf-8'))
         count = 0
         if self.version == 'v1':
@@ -175,7 +179,7 @@ class POST:
 
     def GetVersion(self):
 
-        post = requests.get(str(url_constructor.URLs(self.version, 'version', self.ip, self.port).Check_version()), verify=False, headers=headers)
+        post = requests.get(str(url_constructor.URLs(self.version, 'version', self.ip, self.port).Check_version()), verify=False, headers=headers, timeout=30)
         response = json.loads(post.content.decode('utf-8'))
         if self.version == 'v1':
             if response["data"]["version"] == []:
@@ -192,7 +196,7 @@ class POST:
     def GetNoise(self):
 
         if self.version == 'v1':
-            post = requests.get(str(url_constructor.URLs(self.version, 'noise', self.ip, self.port).Check_version()), verify=False, headers=headers)
+            post = requests.get(str(url_constructor.URLs(self.version, 'noise', self.ip, self.port).Check_version()), verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             if response != None:
                 size = len(response["data"])
@@ -209,7 +213,7 @@ class POST:
 
         if self.version == 'v3' and self.interface == '2Ghz':
             post = requests.get(str(url_constructor.URLs(self.version, 'noise2Ghz', self.ip, self.port).Check_version()),
-                                verify=False, headers=headers)
+                                verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             if response != None:
                 size = len(response["data"])
@@ -226,7 +230,7 @@ class POST:
 
         if self.version == 'v3' and self.interface == '5Ghz':
             post = requests.get(str(url_constructor.URLs(self.version, 'noise5Ghz', self.ip, self.port).Check_version()),
-                                verify=False, headers=headers)
+                                verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             if response != None:
                 size = len(response["data"])
@@ -243,7 +247,7 @@ class POST:
 
     def GetNoise_channelCount(self):
         if self.version == 'v1':
-            post = requests.get(str(url_constructor.URLs(self.version, 'noise', self.ip, self.port).Check_version()), verify=False, headers=headers)
+            post = requests.get(str(url_constructor.URLs(self.version, 'noise', self.ip, self.port).Check_version()), verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             if response != None:
                 size = len(response["data"])
@@ -251,7 +255,7 @@ class POST:
             else:
                 return 0
         if self.version == 'v3' and self.interface == '2Ghz':
-            post = requests.get(str(url_constructor.URLs(self.version, 'noise2Ghz', self.ip, self.port).Check_version()), verify=False, headers=headers)
+            post = requests.get(str(url_constructor.URLs(self.version, 'noise2Ghz', self.ip, self.port).Check_version()), verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             if response != None:
                 size = len(response["data"])
@@ -259,7 +263,7 @@ class POST:
             else:
                 return 0
         if self.version == 'v3' and self.interface == '5Ghz':
-            post = requests.get(str(url_constructor.URLs(self.version, 'noise5Ghz', self.ip, self.port).Check_version()), verify=False, headers=headers)
+            post = requests.get(str(url_constructor.URLs(self.version, 'noise5Ghz', self.ip, self.port).Check_version()), verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             if response != None:
                 size = len(response["data"])
@@ -270,19 +274,19 @@ class POST:
     def Getchannel(self):
         if self.version == 'v1':
             post = requests.get(str(url_constructor.URLs(self.version, 'statusWireless', self.ip, self.port).Check_version()),
-                                verify=False, headers=headers)
+                                verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             return response['data']['channel']
 
         elif self.version == 'v3' and self.interface == '2Ghz':
             post = requests.get(str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
-                                verify=False, headers=headers)
+                                verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             return response['data']['wireless']['radios'][0]['channel']
 
         elif self.version == 'v3' and self.interface == '5Ghz':
             post = requests.get(str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
-                                verify=False, headers=headers)
+                                verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             return response['data']['wireless']['radios'][1]['channel']
 
@@ -290,7 +294,7 @@ class POST:
     def GetNoise_ownChannel(self):
         Own_Channel = POST.Getchannel(self)
         if self.version == 'v1':
-            post = requests.get(str(url_constructor.URLs(self.version, 'noise', self.ip, self.port).Check_version()), verify=False, headers=headers)
+            post = requests.get(str(url_constructor.URLs(self.version, 'noise', self.ip, self.port).Check_version()), verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             if response != None:
                 size = len(response["data"])
@@ -311,7 +315,7 @@ class POST:
 
         elif self.version == 'v3' and self.interface == '2Ghz':
             post = requests.get(str(url_constructor.URLs(self.version, 'noise2Ghz', self.ip, self.port).Check_version()),
-                                verify=False, headers=headers)
+                                verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             if response != None:
                 size = len(response["data"])
@@ -333,7 +337,7 @@ class POST:
         elif self.version == 'v3' and self.interface == '5Ghz':
             post = requests.get(
                 str(url_constructor.URLs(self.version, 'noise5Ghz', self.ip, self.port).Check_version()),
-                verify=False, headers=headers)
+                verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             if response != None:
                 size = len(response["data"])
@@ -359,7 +363,7 @@ class POST:
 
     def GetNoise_byChannel(self):
         if self.version == 'v1':
-            post = requests.get(str(url_constructor.URLs(self.version, 'noise', self.ip, self.port).Check_version()), verify=False, headers=headers)
+            post = requests.get(str(url_constructor.URLs(self.version, 'noise', self.ip, self.port).Check_version()), verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             if response != None:
                 size = len(response["data"])
@@ -379,7 +383,7 @@ class POST:
                 return 0
 
         elif self.version == 'v3' and self.interface == '2Ghz':
-            post = requests.get(str(url_constructor.URLs(self.version, 'noise2Ghz', self.ip, self.port).Check_version()), verify=False, headers=headers)
+            post = requests.get(str(url_constructor.URLs(self.version, 'noise2Ghz', self.ip, self.port).Check_version()), verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             if response != None:
                 size = len(response["data"])
@@ -400,7 +404,7 @@ class POST:
         elif self.version == 'v3' and self.interface == '5Ghz':
             post = requests.get(
                 str(url_constructor.URLs(self.version, 'noise5Ghz', self.ip, self.port).Check_version()), verify=False,
-                headers=headers)
+                headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             if response != None:
                 size = len(response["data"])
@@ -422,28 +426,28 @@ class POST:
 
     def GetUptime(self):
         if self.version == 'v1':
-            post = requests.get(str(url_constructor.URLs(self.version, 'statusSystem', self.ip, self.port).Check_version()), verify=False, headers=headers)
+            post = requests.get(str(url_constructor.URLs(self.version, 'statusSystem', self.ip, self.port).Check_version()), verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             time = str(datetime.timedelta(seconds=(response["data"]["uptime"])))
             return time
         if self.version == 'v3':
             post = requests.get(
                 str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
-                verify=False, headers=headers)
+                verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             time = str(datetime.timedelta(seconds=(response["data"]["device"]["uptime"])))
             return time
 
     def GetModel(self):
         if self.version == 'v1':
-            post = requests.get(str(url_constructor.URLs(self.version, 'statusSystem', self.ip, self.port).Check_version()), verify=False, headers=headers)
+            post = requests.get(str(url_constructor.URLs(self.version, 'statusSystem', self.ip, self.port).Check_version()), verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             model = str(response["data"]["model"])
             return model
         if self.version == 'v3':
             post = requests.get(
                 str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
-                verify=False, headers=headers)
+                verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             model = str(response["data"]["device"]["model"])
             return model
@@ -452,14 +456,14 @@ class POST:
         if self.version == 'v1':
             post = requests.get(
                 str(url_constructor.URLs(self.version, 'statusSystem', self.ip, self.port).Check_version()),
-                verify=False, headers=headers)
+                verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             Alias = str(response["data"]["alias"])
             return Alias
         if self.version == 'v3':
             post = requests.get(
                 str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
-                verify=False, headers=headers)
+                verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             Alias = str(response["data"]["device"]["alias"])
 
@@ -472,7 +476,7 @@ class POST:
         #there is an way to do it, collecting data from cronos passing the URL from cronos. This will be done on next refactory.
 
         if self.version == 'v1':
-            post = requests.get(str(url_constructor.URLs(self.version, 'HasUpdate', self.ip, self.port).Check_version()), verify=False, headers=headers)
+            post = requests.get(str(url_constructor.URLs(self.version, 'HasUpdate', self.ip, self.port).Check_version()), verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             Alias = bool(response["data"]["has_update"])
             #print(Alias)
@@ -482,7 +486,7 @@ class POST:
                 Alias = "Possui uma nova firmware para atualização"
             return Alias
         if self.version == 'v3':
-            post = requests.get(str(url_constructor.URLs(self.version, 'HasUpdate', self.ip, self.port).Check_version()), verify=False, headers=headers)
+            post = requests.get(str(url_constructor.URLs(self.version, 'HasUpdate', self.ip, self.port).Check_version()), verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             Alias = bool(response["data"]["has_update"])
             # print(Alias)
@@ -495,7 +499,7 @@ class POST:
 
     def GetOpMode(self):
         if self.version == 'v1':
-            post = requests.get(str(url_constructor.URLs(self.version, 'WanInfo', self.ip, self.port).Check_version()), verify=False, headers=headers)
+            post = requests.get(str(url_constructor.URLs(self.version, 'WanInfo', self.ip, self.port).Check_version()), verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             Alias = str(response["data"]["opmode"])
             if Alias == "router":
@@ -507,7 +511,7 @@ class POST:
             return Alias
         if self.version == 'v3':
             post = requests.get(str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
-                                verify=False, headers=headers)
+                                verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8'))
             Alias = str(response["data"]["wan"]["ipv4"]["opmode"])
             if Alias == "router":
@@ -520,7 +524,7 @@ class POST:
 
     def GetThroughputEth0_Upload(self):
         post = requests.get(str(url_constructor.URLs(self.version, 'throughputEth0', self.ip, self.port).Check_version()),
-                            verify=False, headers=headers)
+                            verify=False, headers=headers, timeout=30)
         response = json.loads(post.content.decode('utf-8'))
         result=0
         if response != None:
@@ -536,7 +540,7 @@ class POST:
 
     def GetThroughputEth0_Download(self):
         post = requests.get(str(url_constructor.URLs(self.version, 'throughputEth0', self.ip, self.port).Check_version()),
-                            verify=False, headers=headers)
+                            verify=False, headers=headers, timeout=30)
         response = json.loads(post.content.decode('utf-8'))
         result=0
         if response != None:
@@ -553,7 +557,7 @@ class POST:
     def GetThroughputWlan0_Upload(self):
         post = requests.get(
             str(url_constructor.URLs(self.version, 'throughputWlan0', self.ip, self.port).Check_version()),
-            verify=False, headers=headers)
+            verify=False, headers=headers, timeout=30)
         response = json.loads(post.content.decode('utf-8'))
         result = 0
         if response != None:
@@ -569,7 +573,7 @@ class POST:
 
     def GetThroughputWlan0_Download(self):
         post = requests.get(str(url_constructor.URLs(self.version, 'throughputWlan0', self.ip, self.port).Check_version()),
-                            verify=False, headers=headers)
+                            verify=False, headers=headers, timeout=30)
         response = json.loads(post.content.decode('utf-8'))
         result=0
         if response != None:
