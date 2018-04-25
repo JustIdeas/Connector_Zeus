@@ -81,11 +81,13 @@ class POST:
                     if len(vendorinfo) == 0:
                         return 0
                     #print (vendorinfo, MacsInfo, "Befor ZIP")
+
+                    resulting2 = zip(vendorinfo, MacsInfo)
                     resulting = defaultdict(set)
                     for c, i in zip(vendorinfo, MacsInfo):
                         resulting[c].add(i)
 
-                    return  resulting
+                    return  str(dict(resulting2)).strip('{').strip('}')
 
                 result = Counter(vendorinfo)
                 return str(result).strip('Counter').strip('(').strip(')').strip('{').strip('}')
