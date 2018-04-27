@@ -62,7 +62,6 @@ class POST:
                 clients_count = (len(response['data']['clients']))
                 for i in range(clients_count):
                     if self.sepVendor == 2:
-                       #print (response['data']['clients'][i]['mac_address'] + " Interface:" + response['data']['clients'][i]['interface'] , "from scratch!!!")
                         if response['data']['clients'][i]['interface'] == 'wireless':
                             Macs = response['data']['clients'][i]['mac_address']
                             vendorinfo.append(Getvendor.Vendor(Macs).run())
@@ -91,47 +90,77 @@ class POST:
         if self.version == 'v3':
 
             post = requests.get(str(url_constructor.URLs(self.version, 'clientsmac2Ghz', self.ip, self.port).Check_version()),
-                                verify=False, headers=headers, timeout=30)
+                                verify=False, headers=headers, timeout=60)
             response = json.loads(post.content.decode('utf-8'))
             vendorinfo = []
-            if response['data']['clients'] == 0:
-                return (0)
-            else:
-                clients_count = (len(response['data']['clients']))
-                for i in range(clients_count):
-                    if response['data']['clients'][i]['interface'] == 'wireless':
-                        Macs = response['data']['clients'][i]['mac_address']
-                        vendorinfo.append(Getvendor.Vendor(Macs).run())
+            MacsInfo = []
 
-            post = requests.get(
-                str(url_constructor.URLs(self.version, 'clientsmac5Ghz', self.ip, self.port).Check_version()),
-                verify=False, headers=headers, timeout=30)
-            response = json.loads(post.content.decode('utf-8'))
-            if response['data']['clients'] == 0:
-                return (0)
-            else:
-                clients_count = (len(response['data']['clients']))
-                if self.sepVendor == 2:
-                    for i in range(clients_count):
-                        if response['data']['clients'][i]['interface'] == 'wireless':
-                            Macs = response['data']['clients'][i]['mac_address']
-                            vendorinfo.append(Getvendor.Vendor(Macs).run())
-                            vendorinfo.append(Macs)
+            if self.interface == '2Ghz':
+                if response['data']['clients'] == 0:
+                    return (0)
                 else:
+                    clients_count = (len(response['data']['clients']))
                     for i in range(clients_count):
-                        if response['data']['clients'][i]['interface'] == 'wireless':
-                            Macs = response['data']['clients'][i]['mac_address']
-                            vendorinfo.append(Getvendor.Vendor(Macs).run())
-            if len(vendorinfo) == 0:
-                return 0
-            if self.sepVendor == 1:
-                if len(vendorinfo) == 0:
-                    return 0
-                return vendorinfo
+                        if self.sepVendor == 2:
+                            if response['data']['clients'][i]['interface'] == 'wireless':
+                                Macs = response['data']['clients'][i]['mac_address']
+                                vendorinfo.append(Getvendor.Vendor(Macs).run())
+                                MacsInfo.append(Macs)
+                        else:
+                            if response['data']['clients'][i]['interface'] == 'wireless':
+                                Macs = response['data']['clients'][i]['mac_address']
+                                vendorinfo.append(Getvendor.Vendor(Macs).run())
+                    if len(vendorinfo) == 0:
+                        return 0
+                    if self.sepVendor == 1:
+                        if len(vendorinfo) == 0:
+                            return 0
+                        return vendorinfo
+                    if self.sepVendor == 2:
+                        if len(vendorinfo) == 0:
+                            return 0
+                        # print (vendorinfo, MacsInfo, "Befor ZIP")
 
+                        resulting = zip(MacsInfo, vendorinfo)
+                        return str(dict(resulting)).strip('{').strip('}')
 
-            result = Counter(vendorinfo)
-            return str(result).strip('Counter').strip('(').strip(')').strip('{').strip('}')
+                    result = Counter(vendorinfo)
+                    return str(result).strip('Counter').strip('(').strip(')').strip('{').strip('}')
+            if self.interface == '5Ghz':
+                post = requests.get(str(url_constructor.URLs(self.version, 'clientsmac5Ghz', self.ip, self.port).Check_version()),
+                        verify=False, headers=headers, timeout=30)
+
+                response = json.loads(post.content.decode('utf-8'))
+                if response['data']['clients'] == 0:
+                        return (0)
+                else:
+                    clients_count = (len(response['data']['clients']))
+                    for i in range(clients_count):
+                        if self.sepVendor == 2:
+                            if response['data']['clients'][i]['interface'] == 'wireless':
+                                Macs = response['data']['clients'][i]['mac_address']
+                                vendorinfo.append(Getvendor.Vendor(Macs).run())
+                                MacsInfo.append(Macs)
+                        else:
+                            if response['data']['clients'][i]['interface'] == 'wireless':
+                                Macs = response['data']['clients'][i]['mac_address']
+                                vendorinfo.append(Getvendor.Vendor(Macs).run())
+                    if len(vendorinfo) == 0:
+                        return 0
+                    if self.sepVendor == 1:
+                        if len(vendorinfo) == 0:
+                            return 0
+                        return vendorinfo
+                    if self.sepVendor == 2:
+                        if len(vendorinfo) == 0:
+                            return 0
+                        # print (vendorinfo, MacsInfo, "Befor ZIP")
+
+                        resulting = zip(MacsInfo, vendorinfo)
+                        return str(dict(resulting)).strip('{').strip('}')
+
+                    result = Counter(vendorinfo)
+                    return str(result).strip('Counter').strip('(').strip(')').strip('{').strip('}')
 
 
     def GetCountVendorsMac(self):

@@ -53,8 +53,8 @@ class URLs:
             'WanInfo': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wan',
             'throughputEth0': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/service/statistics/eth0',
             'throughputWlan0': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/service/statistics/wlan0',
-            'clientsmac2Ghz': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wireless/wifi0/clients',
-            'clientsmac5Ghz': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wireless/wifi1/clients'
+            'clientsmac2Ghz': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wireless/radio0/clients',
+            'clientsmac5Ghz': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wireless/radio1/clients'
 
 
         }
