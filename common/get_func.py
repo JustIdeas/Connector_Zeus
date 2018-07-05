@@ -89,13 +89,16 @@ class POST:
 
         if self.version == 'v3':
 
-            post = requests.get(str(url_constructor.URLs(self.version, 'clientsmac2Ghz', self.ip, self.port).Check_version()),
-                                verify=False, headers=headers, timeout=60)
-            response = json.loads(post.content.decode('utf-8'))
+
             vendorinfo = []
             MacsInfo = []
 
             if self.interface == '2Ghz':
+                post = requests.get(
+                    str(url_constructor.URLs(self.version, 'clientsmac2Ghz', self.ip, self.port).Check_version()),
+                    verify=False, headers=headers, timeout=60)
+                response = json.loads(post.content.decode('utf-8'))
+
                 if response['data']['clients'] == 0:
                     return (0)
                 else:
