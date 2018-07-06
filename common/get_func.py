@@ -313,13 +313,13 @@ class POST:
             post = requests.get(str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
                                 verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8', errors='ignore'))
-            return response['data']['wireless']['radios'][0]['channel']
+            return response['data']['wireless']['radios'][1]['channel']
 
         elif self.version == 'v3' and self.interface == '5Ghz':
             post = requests.get(str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
                                 verify=False, headers=headers, timeout=30)
             response = json.loads(post.content.decode('utf-8', errors='ignore'))
-            return response['data']['wireless']['radios'][1]['channel']
+            return response['data']['wireless']['radios'][0]['channel']
 
 
     def GetNoise_ownChannel(self):
