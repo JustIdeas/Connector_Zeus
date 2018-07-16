@@ -638,4 +638,33 @@ class POST:
 
         return result
 
+    def Wisecorporate(self):
+        post = requests.get(str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
+                            verify=False, headers=headers, timeout=30)
+        response = json.loads(post.content.decode('utf-8', errors='ignore'))
+        result = response["data"]["corporate"]
+        return result
+
+    def Wiseguests(self):
+        post = requests.get(str(url_constructor.URLs(self.version, 'clients', self.ip, self.port).Check_version()),
+                            verify=False, headers=headers, timeout=30)
+        response = json.loads(post.content.decode('utf-8', errors='ignore'))
+        result = response["data"]["guest"]
+        return result
+
+    def WiseAphealthok(self):
+        post = requests.get(str(url_constructor.URLs(self.version, 'aphealth', self.ip, self.port).Check_version()),
+                            verify=False, headers=headers, timeout=30)
+        response = json.loads(post.content.decode('utf-8', errors='ignore'))
+        result = response["data"]["noProblem"]
+        return result
+
+    def WiseAphealthnok(self):
+        post = requests.get(str(url_constructor.URLs(self.version, 'aphealth', self.ip, self.port).Check_version()),
+                            verify=False, headers=headers, timeout=30)
+        response = json.loads(post.content.decode('utf-8', errors='ignore'))
+        result = response["data"]["problem"]
+        return result
+
+
 
