@@ -13,7 +13,7 @@ class db_cons():
     def run(self):
 
         db = {
-            'history_text': 'SELECT `hosts`.`hostid`, `'+self.ta+'`.`itemid`, `'+self.ta+'`.`value`, `'+self.ta+'`.`clock`  FROM `hosts`, `'+self.ta+'` WHERE ((`hosts`.`hostid` = "'+self.Hid+'") AND (`'+self.ta+'`.`itemid` = "'+self.Iid+'"))',
+            'history_text': 'SELECT `hosts`.`hostid`, `'+self.ta+'`.`itemid`, `'+self.ta+'`.`value`, `'+self.ta+'`.`clock`, FROM_UNIXTIME(clock) FROM `hosts`, `'+self.ta+'` WHERE ((`hosts`.`hostid` = "'+self.Hid+'") AND (`'+self.ta+'`.`itemid` = "'+self.Iid+'"))',
 
         }
         return db[self.ta]
