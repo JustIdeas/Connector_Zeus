@@ -168,3 +168,31 @@ class Decide:
                                      self.interface, self.socket, self.db, self.Hid, self.Iid, self.ta).ConsultDb()
 
             print(response)
+
+        if self.mode == 'wisecorporate':
+            get_func.POST({'data': {'username': self.user, 'password': str(self.pas)}}, self.ip, self.port, self.user,
+                          self.pas, self.channel, self.version, self.interface).login()
+            response = get_func.POST(0, self.ip, self.port, self.user, self.pas, self.channel, self.version,
+                                     self.interface).Wisecorporate()
+            print(response)
+
+        if self.mode == 'wiseguests':
+            get_func.POST({'data': {'username': self.user, 'password': str(self.pas)}}, self.ip, self.port, self.user,
+                          self.pas, self.channel, self.version, self.interface).login()
+            response = get_func.POST(0, self.ip, self.port, self.user, self.pas, self.channel, self.version,
+                                     self.interface).Wiseguests()
+            print(response)
+
+        if self.mode == 'wiseaphealthok':
+            get_func.POST({'data': {'username': self.user, 'password': str(self.pas)}}, self.ip, self.port, self.user,
+                          self.pas, self.channel, self.version, self.interface).login()
+            response = get_func.POST(0, self.ip, self.port, self.user, self.pas, self.channel, self.version,
+                                     self.interface).WiseAphealthok()
+            print(response)
+
+        if self.mode == 'wiseaphealthnok':
+            get_func.POST({'data': {'username': self.user, 'password': str(self.pas)}}, self.ip, self.port, self.user,
+                          self.pas, self.channel, self.version, self.interface).login()
+            response = get_func.POST(0, self.ip, self.port, self.user, self.pas, self.channel, self.version,
+                                     self.interface).WiseAphealthnok()
+            print(response)

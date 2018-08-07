@@ -33,7 +33,7 @@ def check_arg(args=None):
                         help='API Version',
                         default='v1')
     parser.add_argument('-int', '--interface',
-                        help='Interface 2Ghz or 5Ghz, if 5Ghz, use bouth interfaces',
+                        help='Interface 2Ghz,5Ghz or both',
                         default='2Ghz')
     parser.add_argument('-soc', '--socket',
                         help='socket test port',

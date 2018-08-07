@@ -14,4 +14,4 @@ class Vendor:
         response = urllib3.urlopen( request )
         reader = codecs.getreader("utf-8")
         obj = json.load(reader(response))
-        return obj['result']['company']
+        return str(obj['result']['company']).replace(',', '.')
