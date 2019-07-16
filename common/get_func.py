@@ -14,7 +14,7 @@ from common import csv
 from common import db_consult
 from common import csv
 from common import db_constructor
-
+from Tanaza_modules import interaction_module as tanaza
 headers = {}
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
@@ -92,6 +92,10 @@ class POST:
 
             vendorinfo = []
             MacsInfo = []
+            Phymode = []
+            Combined2G = []
+            Combined5G = []
+            Combined = []
 
             if self.interface == '2Ghz':
                 post = requests.get(
@@ -165,6 +169,70 @@ class POST:
 
                     result = Counter(vendorinfo)
                     return str(result).strip('Counter').strip('(').strip(')').strip('{').strip('}')
+            if self.interface == 'Both':
+                post2ghz = requests.get(
+                    str(url_constructor.URLs(self.version, 'clientsmac2Ghz', self.ip, self.port).Check_version()),
+                    verify=False, headers=headers, timeout=60)
+                post5ghz = requests.get(
+                    str(url_constructor.URLs(self.version, 'clientsmac5Ghz', self.ip, self.port).Check_version()),
+                    verify=False, headers=headers, timeout=60)
+
+                response2g = json.loads(post2ghz.content.decode('utf-8', errors='ignore'))
+                response5g = json.loads(post5ghz.content.decode('utf-8', errors='ignore'))
+
+                if response2g['data']['clients'] == 0:
+                    return (0)
+                else:
+                    clients_count = (len(response2g['data']['clients']))
+
+                    for i in range(clients_count):
+                        if self.sepVendor == 2:
+                            if response2g['data']['clients'][i]['interface'] == 'wireless':
+                                mode = response2g['data']['clients'][i]['phymode']
+                                Macs = response2g['data']['clients'][i]['mac_address']
+                                Combined2G.extend([({'Brand': Getvendor.Vendor(Macs).run(), 'Mac': Macs, 'PhyMode': mode, 'Interface': '2ghz'})])
+
+                        else:
+                            if response2g['data']['clients'][i]['interface'] == 'wireless':
+                                Macs = response2g['data']['clients'][i]['mac_address']
+                                vendorinfo.append(Getvendor.Vendor(Macs).run())
+                    if len(vendorinfo) and len(Combined2G) == 0:
+                        return 0
+                    if self.sepVendor == 1:
+                        if len(vendorinfo) == 0:
+                            return 0
+                        return vendorinfo
+
+                if response5g['data']['clients'] == 0:
+                    return (0)
+                else:
+                    clients_count = (len(response5g['data']['clients']))
+                    for i in range(clients_count):
+                        if self.sepVendor == 2:
+                            if response5g['data']['clients'][i]['interface'] == 'wireless':
+                                mode = response5g['data']['clients'][i]['phymode']
+                                Macs = response5g['data']['clients'][i]['mac_address']
+                                Combined5G.extend([({'Brand': Getvendor.Vendor(Macs).run(), 'Mac': Macs, 'PhyMode': mode, 'Interface': '5ghz'})])
+
+                        else:
+                            if response5g['data']['clients'][i]['interface'] == 'wireless':
+                                Macs = response5g['data']['clients'][i]['mac_address']
+                                vendorinfo.append(Getvendor.Vendor(Macs).run())
+
+                    if self.sepVendor == 1:
+                        if len(vendorinfo) == 0:
+                            return 0
+                        return vendorinfo
+                    if self.sepVendor == 2:
+                        if not len(Combined2G) and len(Combined5G):
+                            return 0
+                        Combined.extend(Combined2G)
+                        Combined.extend(Combined5G)
+                        return Combined
+                    if len(vendorinfo) and len(Combined) == 0:
+                        return 0
+                    result = Counter(vendorinfo)
+                    return str(result).strip('Counter').strip('(').strip(')').strip('{').strip('}')
 
 
     def GetCountVendorsMac(self):
@@ -197,15 +265,21 @@ class POST:
 
                 return count
         elif self.version == 'v3' and self.interface == '2Ghz':
-            if response['data']['wireless']['radios'][0]['connected_clients'] == 0:
+            if response['data']['wireless']['radios'][1]['connected_clients'] == 0:
                 return 0
             else:
-                return response['data']['wireless']['radios'][0]['connected_clients']
+                return response['data']['wireless']['radios'][1]['connected_clients']
         elif self.version == 'v3' and self.interface == '5Ghz':
-            if response['data']['wireless']['radios'][1]['connected_clients'] == 0:
+            if response['data']['wireless']['radios'][0]['connected_clients'] == 0:
                 return(0)
             else:
-                return(response['data']['wireless']['radios'][1]['connected_clients'])
+                return(response['data']['wireless']['radios'][0]['connected_clients'])
+        elif self.version == 'v3' and self.interface == 'Both':
+            if response['data']['wireless']['radios'][0]['connected_clients'] and response['data']['wireless']['radios'][1]['connected_clients'] == 0:
+                return(0)
+            else:
+                Combined = (int(response['data']['wireless']['radios'][0]['connected_clients']) + int(response['data']['wireless']['radios'][1]['connected_clients']))
+                return(Combined)
 
 
     def GetVersion(self):
@@ -664,6 +738,10 @@ class POST:
                             verify=False, headers=headers, timeout=30)
         response = json.loads(post.content.decode('utf-8', errors='ignore'))
         result = response["data"]["problem"]
+        return result
+
+    def TanazaGetClients_byfrequency(self):
+        result = tanaza.interact(ip=self.ip, username=self.user, password=self.passw, interface=self.interface).run()
         return result
 
 

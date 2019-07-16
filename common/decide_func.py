@@ -196,3 +196,8 @@ class Decide:
             response = get_func.POST(0, self.ip, self.port, self.user, self.pas, self.channel, self.version,
                                      self.interface).WiseAphealthnok()
             print(response)
+
+        if self.mode == 'tanazaclients':
+            response = get_func.POST(0, self.ip, self.port, self.user, self.pas, self.channel, self.version,
+                                     self.interface).TanazaGetClients_byfrequency()
+            print(response)

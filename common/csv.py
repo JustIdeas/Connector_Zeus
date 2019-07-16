@@ -28,6 +28,14 @@ class CSV:
 
             for item in listI:
                if item[2] != "0" and item[2].find("Traceback") == -1 and ("'"+":") in item[2] and item[2].find("InsecureRequestWarning") == -1:
+                    ##IN PROGRESS, Because of get_func>GetClientsMac>Both##
+                   #for i in range(len(Combined)):
+                       #Dict = dict(Combined[i])
+                       #for value, key in Dict.items():
+
+                           #print(value, key)
+                            #if value == 'Brand':
+                                #print (value, key)
                     DictI = ast.literal_eval("{" + item[2] + "}")
                     for value, key in DictI.items():
 
@@ -44,7 +52,7 @@ class CSV:
                             LValue.append(key)
                             LClock.append(time.strftime("%D %H" + "h" + " %M", time.localtime(int(item[3]))))
 
-            zipList = zip(LHostId, LItemId, LOwner , LValue, LClock)
+            zipList = zip(LHostId, LItemId, LOwner , LClock, LValue)
             columns = ("HostID", "ItemID", "Fabricantes", "Qtd", "Data")
             if columns is None:
                 return "Empty Columns"
