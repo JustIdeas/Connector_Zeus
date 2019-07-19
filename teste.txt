@@ -1,0 +1,8 @@
+B0:72:BF:61:DF:8E -41 dBm [-45, -43]  / -89 dBm (SNR 48)  104 ms ago, 0 s connected.
+	RX: 24.0 MBit/s, MCS 0, 20MHz                      6 Pkts      329 Bytes.
+	TX: 1.0 MBit/s, MCS 0, 20MHz                       2 Pkts       60 Bytes.
+	    712 kbps (expected), 0 Retries, 0 Failed.
+	    CCQ: 100.0 %.
+	PHYMODE: b/g/n
+
+

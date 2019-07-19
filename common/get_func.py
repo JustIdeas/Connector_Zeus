@@ -21,7 +21,10 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 class POST:
     def __init__(self, params='', ip='', port='',
-                 user='', passw='', channel='', version='', interface='', sock='9090', db='zabbix', Hid='1', Iid='1', ta=''):
+                 user='', passw='', channel='',
+                 version='', interface='', sock='9090',
+                 db='zabbix', Hid='1', Iid='1',
+                 ta='', ssid="", network="", device=""):
         self.params = params
         self.ip = ip
         self.user = user
@@ -35,6 +38,9 @@ class POST:
         self.Hid = Hid
         self.Iid = Iid
         self.ta = ta
+        self.ssid = ssid
+        self.network = network
+        self.device = device
 
     def login(self):
         try:
@@ -742,6 +748,14 @@ class POST:
 
     def TanazaGetClients_byfrequency(self):
         result = tanaza.interact(ip=self.ip, username=self.user, password=self.passw, interface=self.interface).run()
+        return result
+
+    def TanazaGetClients_API(self):
+        result = tanaza.interact(username=self.user, password=self.passw, ssid=self.ssid, network=self.network, device=self.device).API_get_clients()
+        return result
+
+    def TanazaGetUptime_API(self):
+        result = tanaza.interact(username=self.user, password=self.passw, ssid=self.ssid, network=self.network, device=self.device).API_get_uptime()
         return result
 
 

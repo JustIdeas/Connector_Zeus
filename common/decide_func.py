@@ -3,7 +3,11 @@ from common import get_func
 
 class Decide:
 
-    def __init__(self, mode='', ip='', port='', user='', pas='', channel='', version='', interface='', sock='9090', db='zabbix', Hid='1', Iid='1', ta=''):
+    def __init__(self, mode='', ip='', port='',
+                 user='', pas='', channel='',
+                 version='', interface='', sock='9090',
+                 db='zabbix', Hid='1', Iid='1',
+                 ta='', ssid="", network=""):
         self.mode = mode
         self.ip = ip
         self.port = port
@@ -17,6 +21,8 @@ class Decide:
         self.Hid = Hid
         self.Iid = Iid
         self.ta = ta
+        self.ssid = ssid
+        self.network = network
 
     def check(self):
 
@@ -200,4 +206,14 @@ class Decide:
         if self.mode == 'tanazaclients':
             response = get_func.POST(0, self.ip, self.port, self.user, self.pas, self.channel, self.version,
                                      self.interface).TanazaGetClients_byfrequency()
+            print(response)
+
+        if self.mode == 'tanazaclients_api':
+            response = get_func.POST(0, self.ip, self.port, self.user, self.pas, self.channel, self.version,
+                                     self.interface, ssid=self.ssid, network=self.network, device=self.Hid).TanazaGetClients_API()
+            print(response)
+        if self.mode == 'tanazauptime_api':
+            response = get_func.POST(0, self.ip, self.port, self.user, self.pas, self.channel, self.version,
+                                     self.interface, ssid=self.ssid, network=self.network,
+                                     device=self.Hid).TanazaGetUptime_API()
             print(response)
