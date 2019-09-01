@@ -43,14 +43,25 @@ def check_arg(args=None):
                         default='zabbix')
     parser.add_argument('-Hid', '--hostid',
                         help='Host ID',
-                        default='1')
+                        default='')
     parser.add_argument('-Iid', '--itemid',
                         help='Item ID',
                         default='1')
     parser.add_argument('-ta', '--table',
                         help='Table Name',
                         default='1')
+    parser.add_argument('-ssid', '--ssid',
+                        help='ssid name',
+                        default='1')
+    parser.add_argument('-netw', '--network',
+                        help='network name',
+                        default='1')
+    parser.add_argument('-prot', '--protocol',
+                        help='Http/Https protocol',
+                        default='1')
+
     results = parser.parse_args(args)
+    print (results)
     return (results.mode,
             results.ip,
             results.port,
@@ -63,17 +74,16 @@ def check_arg(args=None):
             results.database,
             results.hostid,
             results.itemid,
-            results.table
+            results.table,
+            results.network,
+            results.ssid,
+            results.protocol
             )
 
 
 def main():
-    m, ip, p, user, pas, ch, ver, int, soc, db, Hid, Iid, ta = check_arg(sys.argv[1:])
-    #print('mode:', m, 'ip:', ip, 'port:', p, 'username:', user, 'password:', pas, 'channel:', ch, ver, int, soc, db, Hid, Iid)
-
-    decide_func.Decide(m, ip, p, user, pas, ch, ver, int, soc, db, Hid, Iid, ta).check()
-
-
+    m, ip, p, user, pas, ch, ver, int, soc, db, Hid, Iid, ta, ssid, netw, prot = check_arg(sys.argv[1:])
+    decide_func.Decide(m, ip, p, user, pas, ch, ver, int, soc, db, Hid, Iid, ta, netw, ssid, prot).check()
 
 main()
 
