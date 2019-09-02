@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+
+
 import urllib3
 import sys
 import argparse
@@ -58,7 +61,7 @@ def check_arg(args=None):
                         default='1')
     parser.add_argument('-prot', '--protocol',
                         help='Http/Https protocol',
-                        default='1')
+                        default='https')
 
     results = parser.parse_args(args)
     print (results)
