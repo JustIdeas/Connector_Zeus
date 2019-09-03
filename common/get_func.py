@@ -114,7 +114,7 @@ class POST:
                     return (0)
                 else:
                     clients_count = (len(response['data']['clients']))
-
+                    print("TOTAL CLIENTES 2GHZ",clients_count)
                     for i in range(clients_count):
                         if self.sepVendor == 2:
                             if response['data']['clients'][i]['interface'] == 'wireless':
@@ -150,6 +150,7 @@ class POST:
                         return (0)
                 else:
                     clients_count = (len(response['data']['clients']))
+                    print("TOTAL CLIENTES 2GHZ", clients_count)
                     for i in range(clients_count):
                         if self.sepVendor == 2:
                             if response['data']['clients'][i]['interface'] == 'wireless':
@@ -191,7 +192,6 @@ class POST:
                     return (0)
                 else:
                     clients_count = (len(response2g['data']['clients']))
-
                     for i in range(clients_count):
                         if self.sepVendor == 2:
                             if response2g['data']['clients'][i]['interface'] == 'wireless':
@@ -205,7 +205,7 @@ class POST:
                             if response2g['data']['clients'][i]['interface'] == 'wireless':
                                 Macs = response2g['data']['clients'][i]['mac_address']
                                 vendorinfo.append(Getvendor.Vendor(Macs).run())
-                    if len(vendorinfo) and len(Combined2G) == 0:
+                    if len(vendorinfo)== 0:
                         return 0
                     if self.sepVendor == 1:
                         if len(vendorinfo) == 0:
@@ -241,7 +241,7 @@ class POST:
                         Combined.extend(Combined2G)
                         Combined.extend(Combined5G)
                         return Combined
-                    if len(vendorinfo) and len(Combined) == 0:
+                    if len(vendorinfo) == 0:
                         return 0
                     result = Counter(vendorinfo)
                     return str(result).strip('Counter').strip('(').strip(')').strip('{').strip('}')
