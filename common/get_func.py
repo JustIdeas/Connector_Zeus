@@ -197,7 +197,9 @@ class POST:
                             if response2g['data']['clients'][i]['interface'] == 'wireless':
                                 mode = response2g['data']['clients'][i]['phymode']
                                 Macs = response2g['data']['clients'][i]['mac_address']
-                                Combined2G.extend([({'Brand': Getvendor.Vendor(Macs).run(), 'Mac': Macs, 'PhyMode': mode, 'Interface': '2ghz'})])
+                                phyrate = {"Rx": response2g['data']['clients'][i]['rxrate']/1000, "Tx": response2g['data']['clients'][i]['txrate']/1000}
+                                uptime = response2g['data']['clients'][i]['uptime']
+                                Combined2G.extend([({'Brand': Getvendor.Vendor(Macs).run(), 'Mac': Macs, "TIme Connected": uptime, 'PhyMode': mode, 'Interface': '2ghz', "PhyRate": phyrate})])
 
                         else:
                             if response2g['data']['clients'][i]['interface'] == 'wireless':
@@ -219,7 +221,10 @@ class POST:
                             if response5g['data']['clients'][i]['interface'] == 'wireless':
                                 mode = response5g['data']['clients'][i]['phymode']
                                 Macs = response5g['data']['clients'][i]['mac_address']
-                                Combined5G.extend([({'Brand': Getvendor.Vendor(Macs).run(), 'Mac': Macs, 'PhyMode': mode, 'Interface': '5ghz'})])
+                                phyrate = {"Rx": response5g['data']['clients'][i]['rxrate']/1000,
+                                           "Tx": response5g['data']['clients'][i]['txrate']/1000}
+                                uptime = response5g['data']['clients'][i]['uptime']
+                                Combined5G.extend([({'Brand': Getvendor.Vendor(Macs).run(), 'Mac': Macs, "TIme Connected": uptime, 'PhyMode': mode, 'Interface': '5ghz', "PhyRate": phyrate})])
 
                         else:
                             if response5g['data']['clients'][i]['interface'] == 'wireless':

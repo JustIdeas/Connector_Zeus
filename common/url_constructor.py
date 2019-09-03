@@ -62,7 +62,6 @@ class URLs:
 
 
         }
-        print(URL[self.info])
         return URL[self.info]
     def wisefi_v1(self, info='', ip='', port=''):
 

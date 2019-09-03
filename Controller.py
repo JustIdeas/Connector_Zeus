@@ -64,7 +64,6 @@ def check_arg(args=None):
                         default='https')
 
     results = parser.parse_args(args)
-    print (results)
     return (results.mode,
             results.ip,
             results.port,
