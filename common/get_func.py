@@ -200,13 +200,13 @@ class POST:
                                 phyrate = {"Rx": response2g['data']['clients'][i]['rxrate']/1000, "Tx": response2g['data']['clients'][i]['txrate']/1000}
                                 uptime = response2g['data']['clients'][i]['uptime']
                                 Combined2G.extend([({'Brand': Getvendor.Vendor(Macs).run(), 'Mac': Macs, "TIme Connected": uptime, 'PhyMode': mode, 'Interface': '2ghz', "PhyRate": phyrate})])
-
                         else:
                             if response2g['data']['clients'][i]['interface'] == 'wireless':
                                 Macs = response2g['data']['clients'][i]['mac_address']
                                 vendorinfo.append(Getvendor.Vendor(Macs).run())
-                    if len(vendorinfo)== 0:
-                        return 0
+                    if self.sepVendor == 2:
+                        if len(Combined2G) == 0:
+                            return 0
                     if self.sepVendor == 1:
                         if len(vendorinfo) == 0:
                             return 0
@@ -241,8 +241,6 @@ class POST:
                         Combined.extend(Combined2G)
                         Combined.extend(Combined5G)
                         return Combined
-                    if len(vendorinfo) == 0:
-                        return 0
                     result = Counter(vendorinfo)
                     return str(result).strip('Counter').strip('(').strip(')').strip('{').strip('}')
 
