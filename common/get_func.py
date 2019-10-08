@@ -150,7 +150,6 @@ class POST:
                         return (0)
                 else:
                     clients_count = (len(response['data']['clients']))
-                    print("TOTAL CLIENTES 2GHZ", clients_count)
                     for i in range(clients_count):
                         if self.sepVendor == 2:
                             if response['data']['clients'][i]['interface'] == 'wireless':
@@ -643,15 +642,22 @@ class POST:
         response = json.loads(post.content.decode('utf-8', errors='ignore'))
         result=0
         if response != None:
-            size = len(response["data"])
-            for i in range(size):
-                value = response["data"][i]["throughput"]["tx"]
-                result = result + int(value)
-            if result == 0:
-                return 0
-            else:
-                result = round(result/size/1000/1000,3)
-                return result
+            if "eth0" in response["data"]:
+                value = response["data"]["eth0"]["throughput"]["tx"]
+                result = int(value)
+                if result == 0:
+                    return 0
+                else:
+                    result = round(result/1000/1000,3)
+                    return result
+            elif "eth1" in response["data"]:
+                value = response["data"]["eth1"]["throughput"]["tx"]
+                result = int(value)
+                if result == 0:
+                    return 0
+                else:
+                    result = round(result/1000/1000,3)
+                    return result
 
     def GetThroughputEth0_Download(self):
         post = requests.get(str(url_constructor.URLs(proto=self.proto,version=self.version, info='throughputEth0', ip=self.ip, port=self.port).Check_version()),
@@ -659,15 +665,22 @@ class POST:
         response = json.loads(post.content.decode('utf-8', errors='ignore'))
         result=0
         if response != None:
-            size = len(response["data"])
-            for i in range(size):
-                value = response["data"][i]["throughput"]["rx"]
-                result = result + int(value)
-            if result == 0:
-                return 0
-            else:
-                result = round(result/size/1000/1000,3)
-                return result
+            if "eth0" in response["data"]:
+                value = response["data"]["eth0"]["throughput"]["rx"]
+                result = int(value)
+                if result == 0:
+                    return 0
+                else:
+                    result = round(result / 1000 / 1000, 3)
+                    return result
+            elif "eth1" in response["data"]:
+                value = response["data"]["eth1"]["throughput"]["rx"]
+                result = int(value)
+                if result == 0:
+                    return 0
+                else:
+                    result = round(result / 1000 / 1000, 3)
+                    return result
 
     def GetThroughputWlan0_Upload(self):
         post = requests.get(

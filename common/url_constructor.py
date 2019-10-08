@@ -55,7 +55,7 @@ class URLs:
             'statusSystem': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/system/device/status',
             'HasUpdate': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/system/apply/status',
             'WanInfo': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wan',
-            'throughputEth0': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/service/statistics/eth0',
+            'throughputEth0': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/service/statistics',
             'throughputWlan0': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/service/statistics/wlan0',
             'clientsmac2Ghz': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wireless/wifi0/clients',
             'clientsmac5Ghz': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wireless/wifi1/clients'
