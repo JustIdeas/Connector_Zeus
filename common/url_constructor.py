@@ -3,18 +3,18 @@
 
 class URLs:
 
-    def __init__(self, version='', info='', ip='', port=''):
+    def __init__(self, version='', info='', ip='', port='', proto='https'):
         self.version = version
         self.info = info
         self.ip = ip
         self.port = port
+        self.proto = proto
 
     def Check_version(self):
-
         if self.version == str("v1"):
             return URLs().URLs_v1(self.info, self.ip, self.port)
         elif self.version == str("v3"):
-            return URLs().URLs_v3(self.info, self.ip, self.port)
+            return URLs().URLs_v3(self.info, self.ip, self.port, self.proto)
         elif self.version == str("wise_v1"):
             return URLs().wisefi_v1(self.info, self.ip, self.port)
 
@@ -25,38 +25,40 @@ class URLs:
 
         URL = {
 
-            'login': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/system/login',
-            'clients': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/interface/wireless/1/clients',
-            'version': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/system/device',
-            'noise': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/interface/wireless/1/survey',
-            'statusWireless': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/interface/wireless/1/status',
-            'statusSystem': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/system/device/status',
-            'HasUpdate': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/system/apply/status',
-            'WanInfo': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/interface/wan',
-            'throughputEth0': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/service/statistics/wlan0',
-            'throughputWlan0': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/service/statistics/wlan0'
+            'login': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/system/login',
+            'clients': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/interface/wireless/1/clients',
+            'version': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/system/device',
+            'noise': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/interface/wireless/1/survey',
+            'statusWireless': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/interface/wireless/1/status',
+            'statusSystem': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/system/device/status',
+            'HasUpdate': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/system/apply/status',
+            'WanInfo': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/interface/wan',
+            'throughputEth0': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/service/statistics/wlan0',
+            'throughputWlan0': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v1/service/statistics/wlan0'
 
         }
+
         return URL[self.info]
 
-    def URLs_v3(self, info='', ip='', port=''):
+    def URLs_v3(self, info='', ip='', port='', proto='' ):
         self.info = info
         self.ip = ip
         self.port = port
+        self.proto = proto
         URL = {
 
-            'login': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/system/login',
-            'clients': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/system/status',
-            'version': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/system/device',
-            'noise2Ghz': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wireless/radio0/survey',
-            'noise5Ghz': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wireless/radio1/survey',
-            'statusSystem': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/system/device/status',
-            'HasUpdate': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/system/apply/status',
-            'WanInfo': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wan',
-            'throughputEth0': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/service/statistics/eth0',
-            'throughputWlan0': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/service/statistics/wlan0',
-            'clientsmac2Ghz': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wireless/wifi0/clients',
-            'clientsmac5Ghz': 'https://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wireless/wifi1/clients'
+            'login': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/system/login',
+            'clients': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/system/status',
+            'version': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/system/device',
+            'noise2Ghz': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wireless/radio0/survey',
+            'noise5Ghz': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wireless/radio1/survey',
+            'statusSystem': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/system/device/status',
+            'HasUpdate': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/system/apply/status',
+            'WanInfo': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wan',
+            'throughputEth0': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/service/statistics',
+            'throughputWlan0': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/service/statistics/wlan0',
+            'clientsmac2Ghz': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wireless/wifi0/clients',
+            'clientsmac5Ghz': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wireless/wifi1/clients'
 
 
         }
