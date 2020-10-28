@@ -714,6 +714,19 @@ class POST:
             else:
                 result = round(result/size/1000/1000,3)
                 return result
+    def Get_signal_sta(self):
+        post = requests.get(str(url_constructor.URLs(proto=self.proto,
+                                                     version=self.version,
+                                                     info='signal_client_sta',
+                                                     ip=self.ip,
+                                                     port=self.port).Check_version()),
+                                                    verify=False, headers=headers, timeout=30)
+
+        response = json.loads(post.content.decode('utf-8', errors='ignore'))
+        if response != None:
+            response = response['data']
+            signal = -1*response['signal']
+            return signal
 
     def SocketTest(self):
 
