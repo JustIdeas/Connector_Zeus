@@ -58,7 +58,8 @@ class URLs:
             'throughputEth0': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/service/statistics',
             'throughputWlan0': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/service/statistics/wlan0',
             'clientsmac2Ghz': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wireless/wifi0/clients',
-            'clientsmac5Ghz': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wireless/wifi1/clients'
+            'clientsmac5Ghz': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wireless/wifi1/clients',
+            'signal_client_sta': self.proto+'://' + self.ip + ':' + self.port + '/cgi-bin/api/v3/interface/wireless/radio0/signal'
 
 
         }
